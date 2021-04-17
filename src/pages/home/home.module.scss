@@ -114,7 +114,15 @@ footer ul a {
     color: white;
 }
 
+@media screen and (orientation: landscape) {
+    .home__header {
+        height: auto;
+    }
 
+    .home {
+        padding-top: 30px;
+    }
+}
 
 @media screen and (min-width: 860px) {
     .home__more-item-wrapper {
