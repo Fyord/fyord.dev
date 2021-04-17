@@ -1,1 +1,8 @@
-{}
+{
+  "settings": [
+    {
+      "key": "baseUrl",
+      "value": "https://fyorddev.web.app"
+    }
+  ]
+}
