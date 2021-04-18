@@ -1,39 +1,55 @@
 .editor {
-    position: relative;
-    color: #4F6D7A;
-    background-color: #E5E5E5;
-    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.5);
-    border-radius: 20px;
-    padding: 48px 36px 36px 36px;
-    min-height: 300px;
-    max-width: 600px;
-    margin: 0 auto;
-    font-size: 0.9rem;
+  position: relative;
+  color: #4f6d7a;
+  background-color: #e5e5e5;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.5);
+  border-radius: 20px;
+  padding: 48px 36px 36px 36px;
+  min-height: 300px;
+  max-width: 600px;
+  margin: 0 auto;
+  font-size: 0.9rem;
 }
 
 .editor__buttons {
+  display: flex;
+  justify-content: space-between;
+  width: calc(100% - 34px);
+  position: absolute;
+  top: 19px;
+  left: 17px;
+
+  .editor__buttons--window {
+    width: 64px;
     display: flex;
     justify-content: space-between;
-    width: 64px;
-    position: absolute;
-    top: 19px;
-    left: 17px;
+  }
 }
 
 .editor__button {
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
 }
 
 .editor__button--close {
-    background-color: #D05B5B;
+  background-color: #d05b5b;
 }
 
 .editor__button--minimize {
-    background-color: #BFC149;
+  background-color: #bfc149;
 }
 
 .editor__button--expand {
-    background-color: #5DA842;
+  background-color: #5da842;
+}
+
+.editor__button--copy {
+  background-color: transparent;
+  border: 0;
+  padding: 0;
+
+  svg {
+    height: 16px;
+  }
 }
