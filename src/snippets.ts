@@ -6,7 +6,7 @@ export enum Snippets {
     { href: Routes.Styleguide, label: 'Styleguide' }
   ];
 
-  Html = async () =>
+  Template = async () =>
     <header>
       <nav class={styles.nav}>
         <ul>
@@ -19,7 +19,7 @@ export enum Snippets {
 }`,
   Routing = `export class RoutingExample extends Page {
   Route = (route: Route) => route.path === Routes.Routing;
-  Html = async () =>
+  Template = async () =>
     <header>
       <ul>
         <li><a href="/">Home</a></li>
@@ -30,7 +30,7 @@ export enum Snippets {
 }`,
   Styling = `import styles from './contact.module.css';
 
-  Html = async () => {
+  Template = async () => {
     return <div>
       <h1 class={styles.red}>Contact me!</h1>
     </div>;
@@ -39,7 +39,7 @@ export enum Snippets {
   @AppStore private userAge: number = 0;
   @State private counter: number = 0;
 
-  Html = async () => {
+  Template = async () => {
     return <div>
       <p>User's Age: <b>{this.userAge}</b></p>;
       <p>Counter Value: <b>{this.counter}</b></p>;

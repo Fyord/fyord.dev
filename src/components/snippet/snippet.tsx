@@ -21,7 +21,7 @@ export class SnippetComponent extends Component {
     super();
   }
 
-  Html = async () => {
+  Template = async () => {
     return <div class={styles.editor}>
       <div class={styles[StyleNames.EditorButtons]}>
         <div class={styles[StyleNames.EditorButtonsWindow]}>
