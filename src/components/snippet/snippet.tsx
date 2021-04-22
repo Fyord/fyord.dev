@@ -1,6 +1,7 @@
-import { Component, ParseJsx, State } from 'fyord';
+import { Component, ParseJsx, RawHtml, State } from 'fyord';
 import { CopyStringToClipboard } from '../../utility/copyStringToClipboard';
 import { Icons } from '../../icons';
+import * as hljs from 'highlight.js';
 import styles from './snippet.module.scss';
 
 const enum StyleNames {
@@ -31,11 +32,19 @@ export class SnippetComponent extends Component {
         </div>
         <button class={styles[StyleNames.EditorButtonCopy]} onclick={this.onCopyButtonClicked}>{this.copyButtonContent}</button>
       </div>
-      <pre>{this.code}</pre>
+      <pre>{await new RawHtml(this.highlightedCodeElement().outerHTML, false).Render()}</pre>
     </div>;
   }
 
-  private onCopyButtonClicked = () => {
+  private highlightedCodeElement = (): HTMLElement => {
+    const codeEl = document.createElement('code');
+    codeEl.innerText = this.code;
+    hljs.highlightBlock(codeEl);
+
+    return codeEl;
+  }
+
+  private onCopyButtonClicked = (): void => {
     CopyStringToClipboard(this.code);
     this.copyButtonContent = <span>Snippet copied!</span>;
 

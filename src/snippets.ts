@@ -30,10 +30,11 @@ export enum Snippets {
 }`,
   Styling = `import styles from './contact.module.css';
 
+export class StylingExample extends Component {
   Template = async () => {
-    return <div>
+    return <>
       <h1 class={styles.red}>Contact me!</h1>
-    </div>;
+    </>;
 }`,
   State = `export class ChangeDetectionPage extends Page {
   @AppStore private userAge: number = 0;
