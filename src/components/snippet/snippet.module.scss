@@ -9,6 +9,13 @@
   max-width: 600px;
   margin: 0 auto;
   font-size: 0.9rem;
+
+  pre {
+    code {
+      padding: 0;
+      background-color: transparent !important;
+    }
+  }
 }
 
 .editor__buttons {
