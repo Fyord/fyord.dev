@@ -1,8 +1,10 @@
 import { Component, ParseJsx, RawHtml, State } from 'fyord';
 import { CopyStringToClipboard } from '../../utility/copyStringToClipboard';
 import { Icons } from '../../icons';
-import * as hljs from 'highlight.js';
 import styles from './snippet.module.scss';
+
+import * as hljs from 'highlight.js/lib/core';
+hljs.registerLanguage('typescript', require('highlight.js/lib/languages/typescript'));
 
 const enum StyleNames {
   Editor = 'editor',
