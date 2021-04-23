@@ -20,6 +20,7 @@ jobs:
       - run: npm i
       - run: npm run build
       - run: npm run test-once
+      - run: npm run pre-render
       - uses: actions/upload-artifact@v2
         with:
           name: build
@@ -31,12 +32,6 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           lcov-file: ./coverage/lcov.info
       - name: Deploy
-        if: ${{ github.event_name != 'pull_request' }}
-        env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-        run: npm run deploy
-      - run: npm run pre-render
-      - name: Re-deploy
         if: ${{ github.event_name != 'pull_request' }}
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
