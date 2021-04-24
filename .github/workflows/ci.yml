@@ -18,8 +18,9 @@ jobs:
         with:
           node-version: 14.x
       - run: npm i
-      - run: npm run build
+      - run: npm run lint
       - run: npm run test-once
+      - run: npm run build
       - run: npm run pre-render
       - uses: actions/upload-artifact@v2
         with:
