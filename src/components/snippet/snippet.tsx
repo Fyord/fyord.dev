@@ -43,7 +43,7 @@ export class SnippetComponent extends Component {
   private highlightedCodeElement = (): HTMLElement => {
     const codeEl = document.createElement('code');
     codeEl.innerText = this.code;
-    hljs.highlightBlock(codeEl);
+    hljs.highlightElement(codeEl);
 
     return codeEl;
   }
