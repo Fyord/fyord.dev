@@ -1,3 +1,4 @@
+import { Strings } from 'tsbase/Functions/Strings';
 import { RenderModes, Route, TestHelpers } from 'fyord';
 import { Docs } from './docs';
 
@@ -8,7 +9,8 @@ describe('Docs', () => {
   beforeEach(() => {
     classUnderTest = new Docs(
       pageMocks.mockSeoService.Object,
-      pageMocks.mockApp.Object);
+      pageMocks.mockApp.Object,
+      pageMocks.mockDocument.Object);
   });
 
   it('should construct', () => {
@@ -34,6 +36,8 @@ describe('Docs', () => {
   });
 
   it('should have appropriate behavior', async () => {
+    const inputElement = document.createElement('input');
+    pageMocks.mockDocument.Setup(d => d.getElementById(Strings.Empty), inputElement);
     document.body.innerHTML = await classUnderTest.Render();
 
     setTimeout(() => {

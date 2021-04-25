@@ -5,13 +5,18 @@
 
   form,
   section {
-    margin-top: 50px;
-
     input {
-      color: black;
       width: calc(100vw - 68px);
       padding: 8px;
-      border-radius: 5px;
+      background-color: transparent;
+      border: 0;
+      color: white;
+      border-bottom: 1px solid white;
+      outline: none;
+
+      &::placeholder {
+        color: white;
+      }
     }
 
     p {
@@ -19,13 +24,27 @@
     }
   }
 
+  section {
+    margin: 50px 0;
+  }
+
   @media (min-width: $tablet) {
-    padding: 50px calc((100vw - 600px) / 2);
 
     form {
       input {
         max-width: 580px;
       }
+    }
+  }
+
+  @media (min-width: $desktop) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    form,
+    section {
+      width: 600px;
     }
   }
 }
