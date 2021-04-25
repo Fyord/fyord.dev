@@ -8,6 +8,5 @@ export const enum StyleName {
     Section = 'home__section',
     SectionWrapper = 'section-wrapper',
     SectionMore = 'home__more',
-    SectionMoreItemWrapper = 'home__more-item-wrapper',
-    Footer = 'home__footer',
+    SectionMoreItemWrapper = 'home__more-item-wrapper'
   }

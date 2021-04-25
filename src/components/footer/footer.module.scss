@@ -1,0 +1,33 @@
+@import '../../styles/variables.scss';
+
+.footer {
+  display: flex;
+  justify-content: space-evenly;
+  background-color: black;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  padding: 24px;
+
+  ul {
+    padding: 0;
+    list-style: none;
+  }
+
+  a {
+    color: #4F6D7A;
+    text-decoration: none;
+
+    &:hover {
+      color: white;
+    }
+  }
+
+  @media (min-width: $tablet) {
+      justify-content: center;
+
+    div {
+      margin: 0 24px;
+    }
+  }
+}

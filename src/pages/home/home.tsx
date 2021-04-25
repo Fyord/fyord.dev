@@ -3,14 +3,8 @@ import { Snippets } from '../../snippets';
 import { SnippetComponent } from '../../components/module';
 import { StyleName } from './styleName';
 import { Icons } from '../../icons';
+import { Navlinks } from '../../navLinks';
 import styles from './home.module.scss';
-
-const links = [
-  { href: '/docs', label: 'Docs' },
-  { href: 'https://www.npmjs.com/package/fyord-cli', label: 'CLI' },
-  { href: 'https://github.com/Fyord/fyord', label: 'GitHub' },
-  { href: 'https://www.npmjs.com/package/fyord', label: 'NPM' }
-];
 
 export class HomePage extends Page {
   Title = 'Fyord - A minimalist UI Framework designed to embrace core competencies';
@@ -23,7 +17,7 @@ export class HomePage extends Page {
         <p class={styles[StyleName.HeaderSlogan]}>A Minimalist UI Framework</p>
         <p class={styles[StyleName.HeaderSubtitle]}>Designed to embrace core competencies</p>
         <ul class={styles[StyleName.HeaderNav]}>
-          {links.map(l => <li><a href={l.href}>{l.label}</a></li>)}
+          {Navlinks.map(l => <li><a href={l.href}>{l.label}</a></li>)}
         </ul>
       </header>
 
@@ -90,20 +84,6 @@ export class HomePage extends Page {
           </div>
         </section>
       </div>
-
-      <footer class={styles[StyleName.Footer]}>
-        <div>
-          {Icons.FyordLetter}
-          <ul>
-            {links.map(l => <li><a href={l.href}>{l.label}</a></li>)}
-          </ul>
-        </div>
-        <div>
-          <a href="https://github.com/Fyord/fyord" target="_blank" title="Fork Fyord on GitHub!">
-            {Icons.Github}
-          </a>
-        </div>
-      </footer>
     </div>;
   };
 }
