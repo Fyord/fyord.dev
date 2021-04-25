@@ -1,0 +1,32 @@
+@import '../../styles/variables.scss';
+
+.container {
+  color: white;
+  padding: 6px 24px;
+
+  form,
+  section {
+    margin-top: 50px;
+
+    input {
+      color: black;
+      width: calc(100vw - 68px);
+      padding: 8px;
+      border-radius: 5px;
+    }
+
+    p {
+      margin-bottom: 40px;
+    }
+  }
+
+  @media (min-width: $tablet) {
+    padding: 50px calc((100vw - 600px) / 2);
+
+    form {
+      input {
+        max-width: 580px;
+      }
+    }
+  }
+}

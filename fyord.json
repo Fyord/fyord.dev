@@ -3,6 +3,10 @@
     {
       "key": "baseUrl",
       "value": "https://fyord.dev"
+    },
+    {
+      "key": "styleExtension",
+      "value": "scss"
     }
   ]
 }

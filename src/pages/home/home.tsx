@@ -6,7 +6,7 @@ import { Icons } from '../../icons';
 import styles from './home.module.scss';
 
 const links = [
-  { href: '#', label: 'Documentation' },
+  { href: '/docs', label: 'Docs' },
   { href: 'https://www.npmjs.com/package/fyord-cli', label: 'CLI' },
   { href: 'https://github.com/Fyord/fyord', label: 'GitHub' },
   { href: 'https://www.npmjs.com/package/fyord', label: 'NPM' }

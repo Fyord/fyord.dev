@@ -1,0 +1,31 @@
+import { TestHelpers } from 'fyord';
+import { Header } from './header';
+
+describe('Header', () => {
+  let classUnderTest: Header;
+
+  beforeEach(() => {
+    classUnderTest = new Header('title', 'description');
+  });
+
+  it('should construct', () => {
+    expect(classUnderTest).toBeDefined();
+  });
+
+  it('should render template', async () => {
+    expect(await classUnderTest.Template()).toBeDefined();
+  });
+
+  it('should have appropriate behavior', async () => {
+    document.body.innerHTML = await classUnderTest.Render();
+
+    setTimeout(() => {
+      // fire any attached events
+    });
+
+    const behaviorExpectationsMet = await TestHelpers.TimeLapsedCondition(() => {
+      return true; // assertions proving expected behavior was met
+    });
+    expect(behaviorExpectationsMet).toBeTruthy();
+  });
+});
