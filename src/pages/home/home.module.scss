@@ -1,3 +1,5 @@
+@import '../../styles/variables.scss';
+
 .home {
     color: white;
 }
@@ -124,7 +126,7 @@ footer ul a {
     }
 }
 
-@media screen and (min-width: 860px) {
+@media screen and (min-width: $tablet) {
     .home__more-item-wrapper {
         flex-direction: row;
         justify-content: space-between;
@@ -138,7 +140,7 @@ footer ul a {
     }
 }
 
-@media screen and (min-width: 960px) {
+@media screen and (min-width: $desktop) {
     .home__section {
         flex-direction: row;
         justify-content: space-between;
