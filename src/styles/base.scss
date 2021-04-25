@@ -15,14 +15,14 @@ body {
   background-attachment: fixed;
 }
 
-// main {
-//   padding: 6px 24px;
+main {
+  padding: 6px 24px;
 
-//   @media (min-width: $tablet) {
-//     padding: 50px calc((100vw - 600px) / 2);
-//   }
+  @media (min-width: $tablet) {
+    padding: 50px calc((100vw - 600px) / 2);
+  }
 
-//   @media (min-width: $desktop) {
-
-//   }
-// }
+  @media (min-width: $desktop) {
+    padding: 50px calc((100vw - 1100px) / 2);
+  }
+}
