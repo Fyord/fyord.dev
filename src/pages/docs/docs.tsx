@@ -1,4 +1,4 @@
-import { App, ISeoService, Page, ParseJsx, Fragment, Route, State, RawHtml } from 'fyord';
+import { App, ISeoService, Page, ParseJsx, Fragment, Route, RawHtml, JsxRenderer } from 'fyord';
 import { Queryable } from 'tsbase/Collections/Queryable';
 import { Strings } from 'tsbase/Functions/Strings';
 import { Header } from '../../components/header/header';
@@ -8,6 +8,7 @@ import styles from './docs.module.scss';
 
 const searchTermParamKey = 'search';
 const searchInputIdKey = 'searchInput';
+const searchResultsSectionKey = 'searchResultsSection';
 const quickStart = `npx fyord-cli new NewFyordApp
 cd NewFyordApp
 npm i
@@ -18,9 +19,12 @@ export class Docs extends Page {
   Description = 'Official docs for the Fyord framework';
   Route = (route: Route) => route.path === '/docs';
 
-  @State private searchTerm = Strings.Empty;
+  private searchTerm = Strings.Empty;
   private get searchInput(): HTMLInputElement {
     return this.windowDocument.getElementById(this.Ids(searchInputIdKey)) as HTMLInputElement;
+  }
+  private get searchResultsSection(): HTMLElement {
+    return this.windowDocument.getElementById(this.Ids(searchResultsSectionKey)) as HTMLElement;
   }
 
   constructor(seoService?: ISeoService, app?: App, windowDocument?: Document) {
@@ -33,53 +37,64 @@ export class Docs extends Page {
       this.searchTerm = route.queryParams.get(searchTermParamKey) as string;
     }
 
-    const searchTermEntered = this.searchTerm.trim().length >= 3;
-    const searchResults = searchTermEntered ? Queryable.From(docsData).Search(this.searchTerm, 3).ToArray() : [];
+    const searchTermEntered = () => this.searchTerm.trim().length >= 3;
+    const searchResults = () => searchTermEntered() ? Queryable.From(docsData).Search(this.searchTerm, 3).ToArray() : [];
 
     setTimeout(() => {
-      this.searchInput.value = Strings.Empty;
       this.searchInput.focus();
-      this.searchInput.value = this.searchTerm;
     });
 
     return <div class={styles.container}>
       {await new Header(this.Title, this.Description).Render()}
 
-      <form>
+      <form onsubmit={this.onFormSubmit}>
         <input id={this.Ids(searchInputIdKey)}
           type="search" placeholder="Search the docs..."
           value={this.searchTerm}
-          oninput={() => this.searchTerm = this.searchInput.value} />
+          oninput={async () => {
+            this.searchTerm = this.searchInput.value;
+            this.searchResultsSection.innerHTML = JsxRenderer.RenderJsx(
+              await this.getSearchResultsSectionContent(searchTermEntered(), searchResults()));
+          }} />
       </form>
 
-      <section>
-        {searchTermEntered ?
-          <>
-            {searchResults.length > 0 ?
-              <>
-                <p>{searchResults.length} result{searchResults.length > 1 ? 's' : Strings.Empty} found</p>
-                <ul class={styles.resultList}>
-                  {await Promise.all(searchResults.map(async r =>
-                    <li>
-                      <a href={`/docs/${r.Name.toLocaleLowerCase()}`}>
-                        <h3>{r.Name}</h3>
-                        {await new RawHtml(this.getRelevantDescription(r)).Render()}
-                      </a>
-                    </li>))}
-                </ul>
-              </> :
-              <p>No results for "{this.searchTerm}" found.</p>}
-          </> :
-          <div class={styles.gettingStarted}>
-            <h2>Getting Started</h2>
-            <p>Scaffold a new Fyord app with our CLI and dive right in!</p>
-
-            {await new SnippetComponent(quickStart).Render()}
-          </div>
-        }
+      <section id={this.Ids(searchResultsSectionKey)}>
+        {await this.getSearchResultsSectionContent(searchTermEntered(), searchResults())}
       </section>
     </div>;
   }
+
+  private onFormSubmit = (e: Event | null): void => {
+    e?.preventDefault();
+    location.href = `${location.origin}/docs?search=${this.searchInput.value}`;
+  }
+
+  private getSearchResultsSectionContent = async (searchTermEntered: boolean, searchResults: Documentation[]) => <>
+    {searchTermEntered ?
+      <>
+        {searchResults.length > 0 ?
+          <>
+            <p>{searchResults.length} result{searchResults.length > 1 ? 's' : Strings.Empty} found</p>
+            <ul class={styles.resultList}>
+              {await Promise.all(searchResults.map(async r =>
+                <li>
+                  <a href={`/docs/${r.Name.toLocaleLowerCase()}`}>
+                    <h3>{r.Name}</h3>
+                    {await new RawHtml(this.getRelevantDescription(r)).Render()}
+                  </a>
+                </li>))}
+            </ul>
+          </> :
+          <p>No results for "{this.searchTerm}" found.</p>}
+      </> :
+      <div class={styles.gettingStarted}>
+        <h2>Getting Started</h2>
+        <p>Scaffold a new Fyord app with our CLI and dive right in!</p>
+
+        {await new SnippetComponent(quickStart).Render()}
+      </div>
+    }
+  </>;
 
   private getRelevantDescription(documentation: Documentation): string {
     const stringifiedDocumentation = JSON.stringify(documentation).replace(/[^a-zA-Z0-9 ]/g, Strings.Empty);
