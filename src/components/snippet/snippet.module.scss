@@ -1,3 +1,5 @@
+@import '../../styles/variables.scss';
+
 .editor {
   position: relative;
   color: #4f6d7a;
@@ -5,10 +7,14 @@
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.5);
   border-radius: 20px;
   padding: 48px 36px 36px 36px;
-  min-height: 300px;
-  max-width: 600px;
+  max-width: calc(100vw - 48px);
+  min-height: 150px;
   margin: 0 auto;
   font-size: 0.9rem;
+
+  @media (min-width: $tablet) {
+    max-width: 600px;
+  }
 
   pre {
     code {

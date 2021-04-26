@@ -1,4 +1,5 @@
 @import './normalize.scss';
+@import './variables.scss';
 @import '../../node_modules/highlight.js/styles/atom-one-light.css';
 @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500&display=swap');
 
@@ -12,4 +13,18 @@ body {
   font-family: Rubik, Arial, Helvetica, sans-serif;
   background-image: url('../wwwroot/images/bg_texture.png');
   background-attachment: fixed;
+}
+
+main {
+  padding: 6px 24px;
+  min-height: calc(100vh - 12px);
+
+  @media (min-width: $tablet) {
+    padding: 50px calc((100vw - 600px) / 2);
+    min-height: calc(100vh - 100px);
+  }
+
+  @media (min-width: $desktop) {
+    padding: 50px calc((100vw - 1100px) / 2);
+  }
 }

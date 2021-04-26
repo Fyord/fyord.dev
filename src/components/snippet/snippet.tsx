@@ -5,6 +5,8 @@ import styles from './snippet.module.scss';
 
 import * as hljs from 'highlight.js/lib/core';
 hljs.registerLanguage('typescript', require('highlight.js/lib/languages/typescript'));
+hljs.registerLanguage('css', require('highlight.js/lib/languages/css'));
+hljs.registerLanguage('bash', require('highlight.js/lib/languages/bash'));
 
 const enum StyleNames {
   Editor = 'editor',
@@ -41,7 +43,7 @@ export class SnippetComponent extends Component {
   private highlightedCodeElement = (): HTMLElement => {
     const codeEl = document.createElement('code');
     codeEl.innerText = this.code;
-    hljs.highlightBlock(codeEl);
+    hljs.highlightElement(codeEl);
 
     return codeEl;
   }
