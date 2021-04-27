@@ -27,6 +27,11 @@ export const Docs: Documentation[] = [
         Description: 'A unique id assigned to a component\'s root div.'
       },
       {
+        Name: 'Element',
+        Type: 'get Element(): HTMLElement | null',
+        Description: 'Property returning the rendered component root element if rendered or null if not rendered. Use this if you need to access a component\'s rendered output directly.'
+      },
+      {
         Name: 'State',
         Type: 'State = new EventStore<any>()',
         Description: `<p>Manages local component state. Can be accessed directly to get and set values, subscribe to changes, inspect the event store\'s ledger, and even undo/redo changes.</p>
