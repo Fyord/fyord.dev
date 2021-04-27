@@ -34,6 +34,8 @@ export class Docs extends Page {
   Template = async (route?: Route) => {
     if (!this.searchTerm && route?.queryParams.has(searchTermParamKey)) {
       this.searchTerm = route.queryParams.get(searchTermParamKey) as string;
+    } else {
+      this.searchTerm = Strings.Empty;
     }
 
     const searchTermEntered = () => this.searchTerm.trim().length >= 3;
@@ -98,10 +100,14 @@ export class Docs extends Page {
   </>;
 
   private getRelevantDescription(documentation: Documentation): string {
-    const stringifiedDocumentation = JSON.stringify(documentation);
+    const stringifiedDocumentation = JSON.stringify(documentation).toLowerCase();
+    const searchTerm = this.searchTerm.toLowerCase();
 
-    if (stringifiedDocumentation.includes(this.searchTerm)) {
-      return `<p>...<b>${this.searchTerm}</b>${stringifiedDocumentation.split(this.searchTerm)[1].slice(0, (100 - this.searchTerm.length))}...</p>`;
+    const inTitle = documentation.Name.toLowerCase().includes(searchTerm);
+    const inContent = stringifiedDocumentation.includes(searchTerm);
+
+    if (!inTitle && inContent) {
+      return `<p>...<b>${this.searchTerm}</b>${stringifiedDocumentation.split(searchTerm)[1].slice(0, (100 - searchTerm.length))}...</p>`;
     } else {
       return `<p>${documentation.Description}</p>`;
     }
