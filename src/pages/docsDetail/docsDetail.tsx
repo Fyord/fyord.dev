@@ -28,16 +28,17 @@ export class DocsDetail extends Page {
             {this.documentation?.Snippet && await new SnippetComponent(this.documentation.Snippet).Render()}
           </section>
 
-          {this.documentation.Children && await Promise.all(this.documentation.Children.map(async c => <section>
-            <h2>{c.Name}</h2>
-            <p><pre><code>{c.Type}</code></pre></p>
-            <div>{await new RawHtml(c.Description).Render()}</div>
+          {this.documentation.Children && await Promise.all(this.documentation.Children.map(async c => <section class={styles.childSection}>
+            <div class={`${styles.body} ${c.Snippet ? '' : styles.fullWidth}`}>
+              <h2>{c.Name}</h2>
+              <p><pre><code>{c.Type}</code></pre></p>
+              <div>{await new RawHtml(c.Description).Render()}</div>
+            </div>
 
 
-            {c.Snippet && <>
-              <h3>Example:</h3>
+            {c.Snippet && <div class={styles.example}>
               {await new SnippetComponent(c.Snippet).Render()}
-            </>}
+            </div>}
           </section>))}
         </>
       }

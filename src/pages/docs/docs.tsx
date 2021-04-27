@@ -101,7 +101,7 @@ export class Docs extends Page {
     const stringifiedDocumentation = JSON.stringify(documentation);
 
     if (stringifiedDocumentation.includes(this.searchTerm)) {
-      return `<p>...<b>${this.searchTerm}</b>${stringifiedDocumentation.split(this.searchTerm)[1].slice(0, 50)}...</p>`;
+      return `<p>...<b>${this.searchTerm}</b>${stringifiedDocumentation.split(this.searchTerm)[1].slice(0, (100 - this.searchTerm.length))}...</p>`;
     } else {
       return `<p>${documentation.Description}</p>`;
     }

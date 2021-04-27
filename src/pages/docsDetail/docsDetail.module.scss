@@ -1,7 +1,40 @@
+@import '../../styles/variables.scss';
+
 .container {
   color: white;
 
   section {
     margin-top: 50px;
+  }
+
+  h2 {
+    margin-top: 0;
+  }
+
+  .childSection {
+    .body {
+      margin-bottom: 30px;
+    }
+  }
+
+  @media (min-width: $desktop) {
+    section {
+      margin-top: 75px;
+    }
+
+    .childSection {
+      display: flex;
+      justify-content: space-between;
+
+      .body,
+      .example {
+        margin-bottom: 0;
+        width: calc(50% - 20px);
+
+        &.fullWidth {
+          width: 100%;
+        }
+      }
+    }
   }
 }
