@@ -14,15 +14,6 @@
     list-style: none;
   }
 
-  a {
-    color: #4F6D7A;
-    text-decoration: none;
-
-    &:hover {
-      color: white;
-    }
-  }
-
   @media (min-width: $tablet) {
       justify-content: center;
 

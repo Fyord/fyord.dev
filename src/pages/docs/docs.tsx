@@ -31,14 +31,14 @@ export class Docs extends Page {
     super(seoService, app, windowDocument);
   }
 
-  // eslint-disable-next-line complexity
   Template = async (route?: Route) => {
     if (!this.searchTerm && route?.queryParams.has(searchTermParamKey)) {
       this.searchTerm = route.queryParams.get(searchTermParamKey) as string;
     }
 
     const searchTermEntered = () => this.searchTerm.trim().length >= 3;
-    const searchResults = () => searchTermEntered() ? Queryable.From(docsData).Search(this.searchTerm, 3).ToArray() : [];
+    const stopWords = ['name', 'description', 'type', 'snippet', 'children'];
+    const searchResults = () => searchTermEntered() ? Queryable.From(docsData).Search(this.searchTerm, 3, stopWords).ToArray() : [];
 
     setTimeout(() => {
       this.searchInput.focus();
@@ -55,6 +55,7 @@ export class Docs extends Page {
             this.searchTerm = this.searchInput.value;
             this.searchResultsSection.innerHTML = JsxRenderer.RenderJsx(
               await this.getSearchResultsSectionContent(searchTermEntered(), searchResults()));
+            this.App.Router.UseClientRouting();
           }} />
       </form>
 
@@ -97,7 +98,7 @@ export class Docs extends Page {
   </>;
 
   private getRelevantDescription(documentation: Documentation): string {
-    const stringifiedDocumentation = JSON.stringify(documentation).replace(/[^a-zA-Z0-9 ]/g, Strings.Empty);
+    const stringifiedDocumentation = JSON.stringify(documentation);
 
     if (stringifiedDocumentation.includes(this.searchTerm)) {
       return `<p>...<b>${this.searchTerm}</b>${stringifiedDocumentation.split(this.searchTerm)[1].slice(0, 50)}...</p>`;

@@ -8,5 +8,9 @@ import './pages/module';
   const app = App.Instance(process.env.NODE_ENV || Environments.Production);
   await app.Start(defaultLayout);
 
+  app.Router.Route.Subscribe(() => {
+    window.scroll(0, 0);
+  });
+
   window['app'] = app;
 })();
