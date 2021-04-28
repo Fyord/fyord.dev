@@ -78,7 +78,54 @@ this.ReRender() // within component`
   {
     Name: 'Page',
     Description: 'A fyord component that renders on route match.',
-    CliCommand: 'fyord g p NewPage'
+    CliCommand: 'fyord g p NewPage',
+    Children: [
+      {
+        Name: 'RenderMode',
+        Type: 'RenderMode = RenderModes.Hybrid',
+        Description: 'Sets the render mode of the page - used during pre-rendering',
+        Snippet: `export class NotFound extends Page {
+    Title = 'Not Found';
+
+    /* can't prerender a 404 now can we */
+    RenderMode = RenderModes.Dynamic;`
+      },
+      {
+        Name: 'Route',
+        Type: 'abstract Route: (route: Route) => boolean',
+        Description: 'Sets the predicate by which a route match is determined. You may also set title and description and take other route resolution actions here.',
+        Snippet: `/* Simple (home page) example */
+Route = (route: Route) => route.path === '/';
+
+/* Dynamic route - sets title and description when data available 404s when not */
+Route = (route: Route) => {
+  const docsName = route.routeParams?.[1];
+  this.documentation = Docs.find(d => d.Name.toLowerCase() === docsName);
+
+  if (this.documentation) {
+    this.Title = this.documentation.Name;
+    this.Description = this.documentation.Description;
+  }
+
+  return route.path.startsWith('/docs') && !!this.documentation;
+}`
+      },
+      {
+        Name: 'Title',
+        Type: 'Title: string = Strings.Empty',
+        Description: 'Sets the page title.'
+      },
+      {
+        Name: 'Description',
+        Type: 'Description: string = Strings.Empty',
+        Description: 'Sets the meta description tag.'
+      },
+      {
+        Name: 'ImageUrl',
+        Type: 'ImageUrl: string = Strings.Empty',
+        Description: 'Sets the meta image url tag. This is what most platforms use to display an image when linking to a webpage.'
+      }
+    ]
   },
   {
     Name: 'Cli',
