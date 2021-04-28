@@ -1,0 +1,104 @@
+@import '../../styles/variables.scss';
+
+.container {
+  position: fixed;
+  z-index: 50;
+  top: 0;
+  left: 0;
+  padding: 20px 0 20px 15px;
+  height: 100vh;
+  width: 60vw;
+  background-color: black;
+  transition: all .5s;
+  margin-left: -60vw;
+
+  button {
+    background-color: black;
+    border: 0;
+
+    svg {
+      fill: white;
+    }
+  }
+
+  ul {
+    list-style: none;
+    padding: 0;
+    padding-left: 20px;
+
+    li {
+      max-height: 40px;
+      overflow: hidden;
+      transition: all .3s;
+
+      &.expanded {
+        max-height: 100vh;
+      }
+
+      a {
+        height: 40px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+      }
+
+      button {
+        position: absolute;
+        height: 40px;
+        display: flex;
+        align-items: center;
+      }
+    }
+  }
+
+  &.expanded {
+    margin-left: 0;
+
+    button {
+      left: calc(60vw - 55px);
+    }
+  }
+
+  .expandButton {
+    position: absolute;
+    top: 0;
+    left: 60vw;
+    transition: all .3s;
+
+    svg {
+      height: 40px;
+      width: 40px;
+    }
+  }
+
+  @media (min-width: $tablet) {
+    width: 30vw;
+    margin-left: -30vw;
+
+    .expandButton {
+      left: 30vw;
+    }
+
+    &.expanded {
+      button {
+        left: calc(30vw - 55px);
+      }
+    }
+  }
+
+  @media (min-width: $desktop) {
+    width: 300px;
+    margin-left: -300px;
+
+    .expandButton {
+      left: 300px;
+    }
+
+    &.expanded {
+      button {
+        left: calc(300px - 55px);
+      }
+    }
+  }
+}

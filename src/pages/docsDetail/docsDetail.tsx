@@ -1,5 +1,5 @@
 import { Page, ParseJsx, Route, Fragment, RawHtml } from 'fyord';
-import { Header, SnippetComponent } from '../../components/module';
+import { DocsNav, Header, SnippetComponent } from '../../components/module';
 import { Docs, Documentation } from '../../docs';
 import styles from './docsDetail.module.scss';
 
@@ -20,6 +20,7 @@ export class DocsDetail extends Page {
 
   Template = async () => {
     return <div class={styles.container}>
+      {await new DocsNav().Render()}
       {await new Header(this.Title, this.Description).Render()}
 
       {this.documentation &&

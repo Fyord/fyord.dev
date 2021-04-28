@@ -77,7 +77,7 @@ this.ReRender() // within component`
   },
   {
     Name: 'Page',
-    Description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+    Description: 'A fyord component that renders on route match.',
     CliCommand: 'fyord g p NewPage'
   },
   {

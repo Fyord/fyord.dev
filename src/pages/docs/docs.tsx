@@ -2,7 +2,7 @@ import { App, ISeoService, Page, ParseJsx, Fragment, Route, RawHtml, JsxRenderer
 import { Queryable } from 'tsbase/Collections/Queryable';
 import { Strings } from 'tsbase/Functions/Strings';
 import { Header } from '../../components/header/header';
-import { SnippetComponent } from '../../components/module';
+import { DocsNav, SnippetComponent } from '../../components/module';
 import { Docs as docsData, Documentation } from '../../docs';
 import styles from './docs.module.scss';
 
@@ -47,6 +47,7 @@ export class Docs extends Page {
     });
 
     return <div class={styles.container}>
+      {await new DocsNav().Render()}
       {await new Header(this.Title, this.Description).Render()}
 
       <form onsubmit={this.onFormSubmit}>
