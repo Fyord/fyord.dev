@@ -84,11 +84,11 @@ this.ReRender() // within component`
         Name: 'RenderMode',
         Type: 'RenderMode = RenderModes.Hybrid',
         Description: 'Sets the render mode of the page - used during pre-rendering',
-        Snippet: `export class NotFound extends Page {
-    Title = 'Not Found';
+        Snippet: `RenderMode = RenderModes.Hybrid; /* Pre-renders, but still loads js */
 
-    /* can't prerender a 404 now can we */
-    RenderMode = RenderModes.Dynamic;`
+RenderMode = RenderModes.Static; /* Pre-renders without a js bundle */
+
+RenderMode = RenderModes.Dynamic; /* No pre-rendering */`
       },
       {
         Name: 'Route',
