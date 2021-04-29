@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 /* eslint-disable max-len */
 export type Documentation = {
   Name: string,
@@ -73,7 +74,8 @@ export const Docs: Documentation[] = [
         Name: 'State',
         Type: 'State = new EventStore<any>()',
         Description: `<p>Manages local component state. Can be accessed directly to get and set values, subscribe to changes, inspect the event store\'s ledger, and even undo/redo changes.</p>
-<p>For more details, visit the <a href="https://dev.azure.com/joseph-w-bayes/tsbase/_wiki/wikis/tsbase.wiki/396/EventStore" target="_blank">tsbase EventStore docs</a>.</p>`
+<p>For more details, visit the <a href="https://dev.azure.com/joseph-w-bayes/tsbase/_wiki/wikis/tsbase.wiki/396/EventStore" target="_blank">tsbase EventStore docs</a>.</p>
+<p>Most of the time, you'll want to utilize this store through the @State decorator - learn more in <a href="/docs/state%20decorators#State">State decorator docs</a>.</p>`
       },
       {
         Name: 'App',
@@ -110,6 +112,34 @@ const inputValue = document.getElementById(this.Ids('myInput'));`
         Description: 'Replaces the component\'s current rendered html content with a fresh copy. Use this method when you want to manually trigger a re-render.',
         Snippet: `componentReference.ReRender()
 this.ReRender() // within component`
+      }
+    ]
+  },
+  {
+    Name: 'State Decorators',
+    Description: 'Extend component properties to enable change detection and other features via an event store',
+    Children: [
+      {
+        Name: 'State',
+        Description: `<p>Overrides a property\'s getter and setter to get/set values using the component event store.</p>
+<p>The component is subscribed to changes and will re-render whenever they change.</p>
+<p>Use when you would like a property's state change to cause a re-render or you want state to be managed via an event store (ex. for undo, redo, or transaction ledger features).</p>`,
+        Type: 'function State(target: Component, key: string)',
+        Snippet: `export class Counter extends Component {
+  @State private counter: number = 0;
+
+  Template = async () => <>
+    <p>Counter Value: <b>{this.counter}</b></p>;
+    <button onclick={() => this.counter++}>Increment</button>
+    <button onclick={() => this.counter--}>Decrement</button>
+  </>;
+}`
+      },
+      {
+        Name: 'AppStore',
+        Description: `<p>Functions just as the State decorator, with the only difference that the event store being used is the app\'s event store vice the component\'s.<p>
+<p>Use when sharing state across the session, between components for example.</p>`,
+        Type: 'function AppStore(target: Component, key: string)'
       }
     ]
   },

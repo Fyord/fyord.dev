@@ -36,6 +36,10 @@
     padding: 0;
     justify-content: center;
     margin: 42px 0;
+
+    @media (min-width: $desktop) {
+        margin-bottom: 80px;
+    }
 }
 
 .home__header-nav li {
