@@ -17,6 +17,44 @@ export const Docs: Documentation[] = [
     Description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
   },
   {
+    Name: 'Cli',
+    Description: 'A companion CLI to the Fyord framework',
+    CliCommand: 'npm i -g fyord-cli',
+    Children: [
+      {
+        Name: 'Help',
+        Description: 'Lists all fyord commands.  Passing a command argument will list additional details about that command.',
+        Type: 'fyord help | fyord h | fyord h generate'
+      },
+      {
+        Name: 'Version',
+        Description: 'Prints the version of the fyord-cli being ran.',
+        Type: 'fyord version | fyord v'
+      },
+      {
+        Name: 'New',
+        Description: 'Creates a new fyord app. Optionally pass "scss" as an argument after the app name to init with the scss style extension.',
+        Type: 'fyord new MyNewApp | fyord n MyNewApp | fyord n MyNewApp scss'
+      },
+      {
+        Name: 'Generate',
+        Description: `<p>Scaffold a fyord app component, page, etc. in the current directory. For components and pages, local module files are updated for greater productivity.</p>
+<p>Available Types: component (c), page (p), singleton (s), pipeline (pl)</p>`,
+        Type: 'fyord generate {type} | fyord g {type}'
+      },
+      {
+        Name: 'Configure',
+        Description: 'Configure settings saved in fyord.json configuration file.',
+        Type: 'fyord configure | fyord c'
+      },
+      {
+        Name: 'Pre-render',
+        Description: 'Crawls and pre renders pages within the app.',
+        Type: 'fyord prerender | fyord pr'
+      }
+    ]
+  },
+  {
     Name: 'Component',
     Description: 'Base class for all fyord components',
     CliCommand: 'fyord g c NewComponent',
@@ -76,6 +114,21 @@ this.ReRender() // within component`
     ]
   },
   {
+    Name: 'JsxRenderer',
+    Description: '',
+    Children: [
+      {
+        Name: 'RenderJsx',
+        Description: 'Returns render-able html string from the given jsx. Use this if you need to directly update an element\'s innerHTML from jsx.',
+        Type: 'static RenderJsx(jsx: Jsx): string',
+        Snippet: `someElement.innerHTML = JsxRenderer.RenderJsx(<>
+  <h2>Muchus Lorem</h2>
+  <p>Lorem ipsum dipsum wipsum</p>
+</>);`
+      }
+    ]
+  },
+  {
     Name: 'Page',
     Description: 'A fyord component that renders on route match.',
     CliCommand: 'fyord g p NewPage',
@@ -124,44 +177,6 @@ Route = (route: Route) => {
         Name: 'ImageUrl',
         Type: 'ImageUrl: string = Strings.Empty',
         Description: 'Sets the meta image url tag. This is what most platforms use to display an image when linking to a webpage.'
-      }
-    ]
-  },
-  {
-    Name: 'Cli',
-    Description: 'A companion CLI to the Fyord framework',
-    CliCommand: 'npm i -g fyord-cli',
-    Children: [
-      {
-        Name: 'Help',
-        Description: 'Lists all fyord commands.  Passing a command argument will list additional details about that command.',
-        Type: 'fyord help | fyord h | fyord h generate'
-      },
-      {
-        Name: 'Version',
-        Description: 'Prints the version of the fyord-cli being ran.',
-        Type: 'fyord version | fyord v'
-      },
-      {
-        Name: 'New',
-        Description: 'Creates a new fyord app. Optionally pass "scss" as an argument after the app name to init with the scss style extension.',
-        Type: 'fyord new MyNewApp | fyord n MyNewApp | fyord n MyNewApp scss'
-      },
-      {
-        Name: 'Generate',
-        Description: `<p>Scaffold a fyord app component, page, etc. in the current directory. For components and pages, local module files are updated for greater productivity.</p>
-<p>Available Types: component (c), page (p), singleton (s), pipeline (pl)</p>`,
-        Type: 'fyord generate {type} | fyord g {type}'
-      },
-      {
-        Name: 'Configure',
-        Description: 'Configure settings saved in fyord.json configuration file.',
-        Type: 'fyord configure | fyord c'
-      },
-      {
-        Name: 'Pre-render',
-        Description: 'Crawls and pre renders pages within the app.',
-        Type: 'fyord prerender | fyord pr'
       }
     ]
   }
