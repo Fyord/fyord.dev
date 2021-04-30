@@ -1,5 +1,5 @@
 import { Strings } from 'tsbase/Functions/Strings';
-import { RenderModes, Route, TestHelpers } from 'fyord';
+import { Asap, RenderModes, Route, TestHelpers } from 'fyord';
 import { Docs } from './docs';
 
 describe('Docs', () => {
@@ -40,7 +40,7 @@ describe('Docs', () => {
     pageMocks.mockDocument.Setup(d => d.getElementById(Strings.Empty), inputElement);
     document.body.innerHTML = await classUnderTest.Render();
 
-    setTimeout(() => {
+    Asap(() => {
       // fire any attached events
     });
 

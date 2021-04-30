@@ -1,4 +1,4 @@
-import { TestHelpers } from 'fyord';
+import { Asap, TestHelpers } from 'fyord';
 import { Header } from './header';
 
 describe('Header', () => {
@@ -19,7 +19,7 @@ describe('Header', () => {
   it('should have appropriate behavior', async () => {
     document.body.innerHTML = await classUnderTest.Render();
 
-    setTimeout(() => {
+    Asap(() => {
       // fire any attached events
     });
 

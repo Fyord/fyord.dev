@@ -1,4 +1,4 @@
-import { App, Environments, Route } from 'fyord';
+import { App, Environments, Route, Asap } from 'fyord';
 import { defaultLayout } from './core/module';
 
 import './styles/base.scss';
@@ -22,7 +22,7 @@ function scrollToTopOrHash(route: Route | undefined) {
   await app.Start(defaultLayout);
 
   app.Router.Route.Subscribe((route?: Route) => {
-    setTimeout(() => {
+    Asap(() => {
       scrollToTopOrHash(route);
     });
   });

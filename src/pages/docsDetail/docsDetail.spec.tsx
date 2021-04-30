@@ -1,4 +1,4 @@
-import { RenderModes, Route, TestHelpers } from 'fyord';
+import { Asap, RenderModes, Route, TestHelpers } from 'fyord';
 import { DocsDetail } from './docsDetail';
 
 describe('DocsDetail', () => {
@@ -37,7 +37,7 @@ describe('DocsDetail', () => {
     classUnderTest.Route({ path: '/docs/cli', routeParams: ['docs', 'cli'] } as Route);
     document.body.innerHTML = await classUnderTest.Render();
 
-    setTimeout(() => {
+    Asap(() => {
       // fire any attached events
     });
 

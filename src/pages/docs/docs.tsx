@@ -1,4 +1,4 @@
-import { App, ISeoService, Page, ParseJsx, Fragment, Route, RawHtml, JsxRenderer, XssSanitizerService } from 'fyord';
+import { App, ISeoService, Page, ParseJsx, Fragment, Route, RawHtml, JsxRenderer, XssSanitizerService, Asap } from 'fyord';
 import { Queryable } from 'tsbase/Collections/Queryable';
 import { Strings } from 'tsbase/Functions/Strings';
 import { Header } from '../../components/header/header';
@@ -42,7 +42,7 @@ export class Docs extends Page {
     const stopWords = ['name', 'description', 'type', 'snippet', 'children'];
     const searchResults = () => searchTermEntered() ? Queryable.From(docsData).Search(this.searchTerm, 3, stopWords).ToArray() : [];
 
-    setTimeout(() => {
+    Asap(() => {
       this.searchInput.focus();
     });
 

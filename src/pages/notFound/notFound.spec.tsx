@@ -1,4 +1,4 @@
-import { RenderModes, TestHelpers } from 'fyord';
+import { Asap, RenderModes, TestHelpers } from 'fyord';
 import { NotFound } from './notFound';
 
 describe('NotFound', () => {
@@ -30,7 +30,7 @@ describe('NotFound', () => {
   it('should have appropriate behavior', async () => {
     document.body.innerHTML = await classUnderTest.Render();
 
-    setTimeout(() => {
+    Asap(() => {
       // fire any attached events
     });
 

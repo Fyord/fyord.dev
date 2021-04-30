@@ -1,4 +1,4 @@
-import { TestHelpers } from 'fyord';
+import { Asap, TestHelpers } from 'fyord';
 import { DocsNav } from './docsNav';
 
 describe('DocsNav', () => {
@@ -19,7 +19,7 @@ describe('DocsNav', () => {
   it('should have appropriate behavior', async () => {
     document.body.innerHTML = await classUnderTest.Render();
 
-    setTimeout(() => {
+    Asap(() => {
       // fire any attached events
     });
 
