@@ -440,5 +440,26 @@ this.seoService.SetDefaultTags(this.Title, this.Description, this.ImageUrl);`
 </ul>`
       }
     ]
+  },
+  {
+    Name: 'RawHtml',
+    Description: 'An included component that supports rendering a plaintext string',
+    Children: [
+      {
+        Name: 'With sanitization',
+        Description: 'The default behavior of this component is to render html after stripping any potentially unsafe attributes. This is a good solution for rendering user generated content which may include html.',
+        Snippet: `const paragraphString = '<p>hello world!</p>';
+
+await new RawHtml(paragraphString).Render();`
+      },
+      {
+        Name: 'Without sanitization',
+        Description: 'Passing "false" to the constructor after the string to be rendered explicitly bypasses safe rendering and will allow the string to be rendered regardless of contents. You want to be careful, but this can be a good option when rendering a static string you\'ve defined in your application code.',
+        Snippet: `const renderItAnyway = '<img src="fake" onerror="alert(\\'boo\\');">';
+
+/* expects an alert */
+await new RawHtml(renderItAnyway, false).Render();`
+      }
+    ]
   }
 ];
