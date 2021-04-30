@@ -317,7 +317,7 @@ await app.Start(defaultLayout);`
       },
       {
         Name: 'Can I just use JavaScript?',
-        Description: `Probably, but we don't current support vanilla JavaScript, so you'll be on your own.
+        Description: `Probably, but we don't currently support vanilla JavaScript, so you'll be on your own.
 <p>We intend Fyord to be TypeScript first, but will leave the door open to JavaScript support at a later time.</p>`
       },
       {
