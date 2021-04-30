@@ -12,5 +12,7 @@ export class NotFound extends Page {
       {await new Header(this.Title, `Could not find content at, "${decodeURI(route?.path || '')}"`).Render()}
 
       <p class={styles.suggestion}>Please check your spelling. Otherwise the resource may have been moved.</p>
+
+      <p>You could also try searching the docs for <a href={`/docs?search=${route?.routeParams[0]}`}>{route?.routeParams[0]}</a></p>
     </div>;
 }

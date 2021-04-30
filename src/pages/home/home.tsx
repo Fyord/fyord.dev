@@ -7,7 +7,6 @@ import { Navlinks } from '../../navLinks';
 import styles from './home.module.scss';
 
 export class HomePage extends Page {
-  Title = 'Fyord - A minimalist UI Framework designed to embrace core competencies';
   Route = (route: Route) => route.path === '/';
   Template = async () => {
     return <div class={styles[StyleName.Home]}>

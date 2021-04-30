@@ -1,4 +1,4 @@
-import { App, ISeoService, Page, ParseJsx, Fragment, Route, RawHtml, JsxRenderer } from 'fyord';
+import { App, ISeoService, Page, ParseJsx, Fragment, Route, RawHtml, JsxRenderer, XssSanitizerService } from 'fyord';
 import { Queryable } from 'tsbase/Collections/Queryable';
 import { Strings } from 'tsbase/Functions/Strings';
 import { Header } from '../../components/header/header';
@@ -81,7 +81,7 @@ export class Docs extends Page {
             <p>{searchResults.length} result{searchResults.length > 1 ? 's' : Strings.Empty} found</p>
             <ul class={styles.resultList}>
               {await Promise.all(searchResults.map(async r =>
-                <li>
+                <li class={styles.resultItem}>
                   <a href={`/docs/${r.Name.toLocaleLowerCase()}`}>
                     <h3>{r.Name}</h3>
                     {await new RawHtml(this.getRelevantDescription(r)).Render()}
@@ -101,7 +101,7 @@ export class Docs extends Page {
   </>;
 
   private getRelevantDescription(documentation: Documentation): string {
-    const stringifiedDocumentation = JSON.stringify(documentation).toLowerCase();
+    const stringifiedDocumentation = XssSanitizerService.Instance().PlainText(JSON.stringify(documentation).toLowerCase());
     const searchTerm = this.searchTerm.toLowerCase();
 
     const inTitle = documentation.Name.toLowerCase().includes(searchTerm);

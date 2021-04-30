@@ -31,16 +31,15 @@
   .resultList {
     padding: 0;
 
-    li {
+    .resultItem {
       list-style: none;
       background-color: white;
       margin: 40px 0 0 0;
+      overflow: hidden;
 
       a {
         text-decoration: none;
-        color: white;
         display: block;
-        height: 140px;
 
         h3,
         p {
@@ -49,6 +48,7 @@
         }
 
         h3 {
+          color: white;
           background-color: black;
         }
 

@@ -113,7 +113,7 @@ this.ReRender() // within component`
   },
   {
     Name: 'Page',
-    Description: 'A fyord component that renders on route match.',
+    Description: 'A fyord component that renders on route match',
     CliCommand: 'fyord g p NewPage',
     Children: [
       {
@@ -145,6 +145,11 @@ Route = (route: Route) => {
 
   return route.path.startsWith('/docs') && !!this.documentation;
 }`
+      },
+      {
+        Name: 'seoService',
+        Type: 'seoService: ISeoService = SeoService.Instance',
+        Description: 'Reference to the SeoService instance.  Learn more about this service <a href="/docs/seoservice">here</a>.'
       },
       {
         Name: 'Title',
@@ -193,7 +198,7 @@ Route = (route: Route) => {
   },
   {
     Name: 'App',
-    Description: 'A singleton pattern used to bootstrap and coordinate functionality in a Fyord app.',
+    Description: 'A singleton pattern used to bootstrap and coordinate functionality in a Fyord app',
     Children: [
       {
         Name: 'Instance',
@@ -276,6 +281,11 @@ const entries = app.Logger.LogEntries;`
         Type: 'Layout = new Observable<Jsx>()'
       },
       {
+        Name: 'Router',
+        Description: 'Reference to the app\'s single router instance. Learn more about the router <a href="/docs/router">here</a>.',
+        Type: 'Router: IRouter = Router.Instance()'
+      },
+      {
         Name: 'InitializeStore',
         Description: 'Optionally set the initial data within the global app store.',
         Type: 'InitializeStore<T>(state: T): void'
@@ -288,6 +298,55 @@ const entries = app.Logger.LogEntries;`
 await app.Start(defaultLayout);`
       }
     ]
+  },
+  {
+    Name: 'Router',
+    Description: 'Handles client side routing for Fyord apps',
+    Children: [
+      {
+        Name: 'Instance',
+        Description: '',
+        Type: 'static Instance(mainWindow: Window = window, xssSanitizer: IXssSanitizerService = XssSanitizerService.Instance()): IRouter',
+        Snippet: `/* Access the router instance from anywhere */
+const router = Router.Instance();
+
+/* Access the router from within a component or page */
+const router = this.App.Router;`
+      },
+      {
+        Name: 'Route',
+        Description: 'Subscribe to route changes via this observable',
+        Type: 'Route = new Observable<Route>()',
+        Snippet: `this.App.Router.Route.Subscribe((route?: Route) => {
+  console.log(\`route changed to \${route?.path}\`);
+});`
+      },
+      {
+        Name: 'CurrentRoute',
+        Description: 'Access the value of the currently resolved route',
+        Type: 'CurrentRoute?: Route'
+      },
+      {
+        Name: 'UseClientRouting',
+        Description: 'Updates any rendered anchor tags to use client-side routing. Use this only when you have manually added anchor tags to the dom outside of a Fyord component\'s normal render method.',
+        Type: 'UseClientRouting(): void'
+      },
+      {
+        Name: 'RouteTo',
+        Description: 'Programmatically route to the given href via client-side routing. You\'ll need to route to a page from time to time without the user clicking on an anchor tag. Use this method when that time comes.',
+        Type: 'RouteTo(href: string, push = true): Route',
+        Snippet: `/* From within a component or page */
+this.App.Router.RouteTo('/docs');`
+      }
+    ]
+  },
+  {
+    Name: 'SeoService',
+    Description: 'A flexible solution for setting title and meta tags'
+  },
+  {
+    Name: 'XssSanitizerService',
+    Description: 'A built in service supporting the sanitization of plain text and html content'
   },
   {
     Name: 'JsxRenderer',
