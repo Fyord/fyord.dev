@@ -32,7 +32,7 @@ export class DocsDetail extends Page {
           {this.documentation.Children && await Promise.all(this.documentation.Children.map(async c => <section class={styles.childSection}>
             <div class={`${styles.body} ${c.Snippet ? '' : styles.fullWidth}`}>
               <h2 id={c.Name}>{c.Name}</h2>
-              <p><pre><code>{c.Type}</code></pre></p>
+              {c.Type && <p><pre><code>{c.Type}</code></pre></p>}
               <div>{await new RawHtml(c.Description).Render()}</div>
             </div>
 
