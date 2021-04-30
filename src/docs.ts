@@ -15,7 +15,35 @@ export type Documentation = {
 export const Docs: Documentation[] = [
   {
     Name: 'App',
-    Description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+    Description: 'A singleton pattern used to bootstrap and coordinate functionality in a Fyord app.',
+    Children: [
+      {
+        Name: 'Environment Variables',
+        Description: 'Fyord provides a pattern for supporting development and production environment variables. You should <b>NOT</b> use this pattern for storing secrets or other sensitive information such as api keys or credentials.',
+        Type: 'Map<string, string>',
+        Snippet: `/* setting environment variables - index.ts */
+
+(async () => {
+  const devEnvironmentVariables = new Map<string, string>([
+    ['backendServer', 'http://dev.com']
+  ]);
+  const prodEnvironmentVariables = new Map<string, string>([
+    ['backendServer', 'http://prod.com']
+  ]);
+
+  const app = App.Instance(
+    process.env.NODE_ENV || Environments.Production,
+    prodEnvironmentVariables,
+    devEnvironmentVariables
+  );
+
+  await app.Start(defaultLayout);
+})();
+
+/* using environment variables within a component */
+this.App.EnvironmentVariables.get('backendServer');`
+      }
+    ]
   },
   {
     Name: 'Cli',
