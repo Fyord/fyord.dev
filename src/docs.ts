@@ -305,7 +305,7 @@ await app.Start(defaultLayout);`
     Children: [
       {
         Name: 'Instance',
-        Description: '',
+        Description: 'Retrieves the router instance.',
         Type: 'static Instance(mainWindow: Window = window, xssSanitizer: IXssSanitizerService = XssSanitizerService.Instance()): IRouter',
         Snippet: `/* Access the router instance from anywhere */
 const router = Router.Instance();
@@ -342,11 +342,62 @@ this.App.Router.RouteTo('/docs');`
   },
   {
     Name: 'SeoService',
-    Description: 'A flexible solution for setting title and meta tags'
+    Description: 'A flexible solution for setting title and meta tags',
+    Children: [
+      {
+        Name: 'Instance',
+        Description: 'Retrieves the seo service instance.',
+        Type: 'static get Instance(): SeoService { return this.instance || (this.instance = new SeoService()); }',
+        Snippet: `/* Access the seo service instance from anywhere */
+const seoService = SeoService.Instance;
+
+/* Access the seo service instance from within a page */
+const seoService = this.seoService;`
+      },
+      {
+        Name: 'SetDefaultTags',
+        Description: 'Sets the given title, description, and image url for a page. The parameters are optional and will default back the index.html when not set values.',
+        Type: 'SetDefaultTags(title?: string, description?: string, imageUrl?: string): void',
+        Snippet: `/* from within a page */
+this.seoService.SetDefaultTags(this.Title, this.Description, this.ImageUrl);`
+      },
+      {
+        Name: 'SetTitle',
+        Type: 'SetTitle(title: string): void',
+        Description: 'Sets the head <title> element value.'
+      },
+      {
+        Name: 'SetDescription',
+        Type: 'SetDescription(description: string): void',
+        Description: 'Sets the meta description tag for a page.'
+      },
+      {
+        Name: 'SetImageUrl',
+        Type: 'SetImageUrl(imageUrl: string): void',
+        Description: 'Sets the og:image meta tag for a page.'
+      },
+      {
+        Name: 'SetMetaTags',
+        Type: 'SetMetaTags(metaTags: Array<MetaTag>): void',
+        Description: 'Sets any number of given meta tags for a page.'
+      }
+    ]
   },
   {
     Name: 'XssSanitizerService',
-    Description: 'A built in service supporting the sanitization of plain text and html content'
+    Description: 'A built in service supporting the sanitization of plain text and html content',
+    Children: [
+      {
+        Name: 'PlainText',
+        Type: 'PlainText(userInput: string): string',
+        Description: 'Sanitizes the given input and returns a plain text string.'
+      },
+      {
+        Name: 'Html',
+        Type: 'Html(userInput: string): string',
+        Description: 'Sanitizes the given input, removing potential unsafe attributes, but allowing other html. Use this when you need to support user\'s editing content with a WYSIWYG editor.'
+      }
+    ]
   },
   {
     Name: 'JsxRenderer',
