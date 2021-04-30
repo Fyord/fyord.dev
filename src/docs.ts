@@ -431,6 +431,11 @@ this.seoService.SetDefaultTags(this.Title, this.Description, this.ImageUrl);`
 <p>We intend Fyord to be TypeScript first, but will leave the door open to JavaScript support at a later time.</p>`
       },
       {
+        Name: 'How do I route on the client?',
+        Description: `<p>Just declare normal anchor tags in your markup!</p>
+<p>All anchor tags with a local href, that aren't target blank, will be automatically routed on the client.</p>`
+      },
+      {
         Name: 'How to deploy a static site?',
         Description: `<ul>
   <li>Ensure all pages have their <a href="/docs/page#RenderMode">RenderMode</a> set to "static"</li>
