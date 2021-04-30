@@ -323,9 +323,9 @@ await app.Start(defaultLayout);`
       {
         Name: 'How to deploy a static site?',
         Description: `<ul>
-  <li>Ensure all pages have their <a href="http://localhost:4200/docs/page#RenderMode">RenderMode</a> set to "static"</li>
+  <li>Ensure all pages have their <a href="/docs/page#RenderMode">RenderMode</a> set to "static"</li>
   <li>Build your app</li>
-  <li>Use the cli to <a href="http://localhost:4200/docs/cli#Pre-render">pre-render</a></li>
+  <li>Use the cli to <a href="/docs/cli#Pre-render">pre-render</a></li>
   <li>Deploy the "public" folder!</li>
 </ul>`
       }
