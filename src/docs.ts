@@ -18,9 +18,26 @@ export const Docs: Documentation[] = [
     Description: 'A singleton pattern used to bootstrap and coordinate functionality in a Fyord app.',
     Children: [
       {
+        Name: 'Instance',
+        Description: 'Returns the singleton App instance. Optionally pass environment variables during bootstrap to make them available throughout the app\'s life cycle.',
+        Type: 'static Instance(environment?: string, productionEnvironmentVariables = new Map<string, string>(), developmentEnvironmentVariables = new Map<string, string>())',
+        Snippet: ` /* index.ts */
+const app = App.Instance(process.env.NODE_ENV || Environments.Production);`
+      },
+      {
+        Name: 'Destroy',
+        Description: 'Destroys the singleton App instance, allowing it to be re-instantiated.',
+        Type: 'static Destroy(): void'
+      },
+      {
+        Name: 'Main',
+        Description: 'Returns the application\'s single rendered <main> element. The main element is where pages are rendered on route match.',
+        Type: 'get Main(): HTMLElement'
+      },
+      {
         Name: 'Environment Variables',
         Description: 'Fyord provides a pattern for supporting development and production environment variables. You should <b>NOT</b> use this pattern for storing secrets or other sensitive information such as api keys or credentials.',
-        Type: 'Map<string, string>',
+        Type: 'EnvironmentVariables = new Map<string, string>()',
         Snippet: `/* setting environment variables - index.ts */
 
 (async () => {
@@ -42,6 +59,55 @@ export const Docs: Documentation[] = [
 
 /* using environment variables within a component */
 this.App.EnvironmentVariables.get('backendServer');`
+      },
+      {
+        Name: 'Logger',
+        Description: `<p>Returns the app\'s single logger instance. In development new entries are logged as warnings to the console.  Learn more about this logger at <a href="https://dev.azure.com/joseph-w-bayes/tsbase/_wiki/wikis/tsbase.wiki/411/Logger" target="_blank">tsbase Logger docs</a>.</p>
+<p>You may access the logger and log entries as shown below. Exceptions thrown in safe execution <a href="https://dev.azure.com/joseph-w-bayes/tsbase/_wiki/wikis/tsbase.wiki/231/CommandQuery" target="_blank">tsbase Command/Query</a> pattern implementations are also logged automatically.</p>`,
+        Type: 'Logger.Instance',
+        Snippet: `/* Subscribe to entries */
+app.Logger.EntryLogged.Subscribe((e) => {
+  console.log(e.Message);
+});
+
+/* Info */
+const entry = new LogEntry('test');
+app.Logger.Log(entry);
+
+/* Warn */
+const entry = new LogEntry('test', LogLevel.Warn);
+app.Logger.Log(entry);
+
+/* Error */
+const error = new Error('something bad happened');
+const entry = new LogEntry('test', LogLevel.Error, error);
+app.Logger.Log(entry);
+
+/* Access entries */
+const entries = app.Logger.LogEntries;`
+      },
+      {
+        Name: 'Store',
+        Description: `<p>Manages global app state. Can be accessed directly to get and set values, subscribe to changes, inspect the event store's ledger, and even undo/redo changes.</p>
+<p>For more details, visit the <a href="https://dev.azure.com/joseph-w-bayes/tsbase/_wiki/wikis/tsbase.wiki/396/EventStore" target="_blank">tsbase EventStore docs</a>.</p>`,
+        Type: 'Store = new EventStore<any>()'
+      },
+      {
+        Name: 'Layout',
+        Description: '<a href="https://dev.azure.com/joseph-w-bayes/tsbase/_wiki/wikis/tsbase.wiki/379/Observable" target="_blank">Observable</a> for the active app layout. The application layout can be updated by publishing to this observable. Observers may also respond to changes in layout by subscribing to it.',
+        Type: 'Layout = new Observable<Jsx>()'
+      },
+      {
+        Name: 'InitializeStore',
+        Description: 'Optionally set the initial data within the global app store.',
+        Type: 'InitializeStore<T>(state: T): void'
+      },
+      {
+        Name: 'Start',
+        Description: 'Set the initial layout and begin rendering / routing the Fyord application.',
+        Type: 'Start(initialLayout: () => Promise<Jsx>): Promise<void>',
+        Snippet: `/* index.ts */
+await app.Start(defaultLayout);`
       }
     ]
   },
