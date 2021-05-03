@@ -1,4 +1,4 @@
-import { App, ISeoService, Page, ParseJsx, Fragment, Route, RawHtml, JsxRenderer, XssSanitizerService, Asap } from 'fyord';
+import { App, ISeoService, Page, ParseJsx, Fragment, Route, RawHtml, XssSanitizerService, Asap, State } from 'fyord';
 import { Queryable } from 'tsbase/Collections/Queryable';
 import { Strings } from 'tsbase/Functions/Strings';
 import { Header } from '../../components/header/header';
@@ -8,7 +8,6 @@ import styles from './docs.module.scss';
 
 const searchTermParamKey = 'search';
 const searchInputIdKey = 'searchInput';
-const searchResultsSectionKey = 'searchResultsSection';
 const quickStart = `npx fyord-cli new NewFyordApp
 cd NewFyordApp
 npm i
@@ -17,34 +16,39 @@ npm start`;
 export class Docs extends Page {
   Title = 'Docs';
   Description = 'Official docs for the Fyord framework';
-  Route = (route: Route) => route.path === '/docs';
+  Route = (route: Route) => {
+    if (route.path === '/docs') {
+      if (!this.searchTerm && route?.queryParams.has(searchTermParamKey)) {
+        this.searchTerm = route.queryParams.get(searchTermParamKey) as string;
+      } else {
+        this.searchTerm = Strings.Empty;
+      }
 
-  private searchTerm = Strings.Empty;
+      Asap(() => {
+        this.searchInput.value = this.searchTerm;
+        this.searchInput.focus();
+      });
+
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  @State private searchTerm = Strings.Empty;
+
   private get searchInput(): HTMLInputElement {
     return this.windowDocument.getElementById(this.Ids(searchInputIdKey)) as HTMLInputElement;
-  }
-  private get searchResultsSection(): HTMLElement {
-    return this.windowDocument.getElementById(this.Ids(searchResultsSectionKey)) as HTMLElement;
   }
 
   constructor(seoService?: ISeoService, app?: App, windowDocument?: Document) {
     super(seoService, app, windowDocument);
   }
 
-  Template = async (route?: Route) => {
-    if (!this.searchTerm && route?.queryParams.has(searchTermParamKey)) {
-      this.searchTerm = route.queryParams.get(searchTermParamKey) as string;
-    } else {
-      this.searchTerm = Strings.Empty;
-    }
-
+  Template = async () => {
     const searchTermEntered = () => this.searchTerm.trim().length >= 3;
     const stopWords = ['name', 'description', 'type', 'snippet', 'children'];
     const searchResults = () => searchTermEntered() ? Queryable.From(docsData).Search(this.searchTerm, 3, stopWords).ToArray() : [];
-
-    Asap(() => {
-      this.searchInput.focus();
-    });
 
     return <div class={styles.container}>
       {await new DocsNav().Render()}
@@ -53,16 +57,10 @@ export class Docs extends Page {
       <form onsubmit={this.onFormSubmit}>
         <input id={this.Ids(searchInputIdKey)}
           type="search" placeholder="Search the docs..."
-          value={this.searchTerm}
-          oninput={async () => {
-            this.searchTerm = this.searchInput.value;
-            this.searchResultsSection.innerHTML = JsxRenderer.RenderJsx(
-              await this.getSearchResultsSectionContent(searchTermEntered(), searchResults()));
-            this.App.Router.UseClientRouting();
-          }} />
+          oninput={async () => this.searchTerm = this.searchInput.value} />
       </form>
 
-      <section id={this.Ids(searchResultsSectionKey)}>
+      <section>
         {await this.getSearchResultsSectionContent(searchTermEntered(), searchResults())}
       </section>
     </div>;

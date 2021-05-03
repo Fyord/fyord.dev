@@ -22,7 +22,7 @@ describe('Docs', () => {
   });
 
   it('should return true for routes that match', () => {
-    const route = { path: '/docs' } as Route;
+    const route = { path: '/docs', queryParams: new Map<string, string>() } as Route;
     expect(classUnderTest.Route(route)).toBeTruthy();
   });
 

@@ -466,5 +466,23 @@ await new RawHtml(paragraphString).Render();`
 await new RawHtml(renderItAnyway, false).Render();`
       }
     ]
+  },
+  {
+    Name: 'Utilities',
+    Description: 'Helpful functions when working in Fyord projects',
+    Children: [
+      {
+        Name: 'Asap',
+        Description: 'Adds an anonymous function to the queue to be execute as soon as possible.',
+        Type: 'function Asap(func: () => void): Promise<void>',
+        Snippet: `/* Use within a component\'s Template method to focus an input on each render */
+
+Asap(() => {
+  this.inputField.focus();
+});
+
+/* Use within a page\'s Route method to focus each time the page is visited */`
+      }
+    ]
   }
 ];
