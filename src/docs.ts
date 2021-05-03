@@ -415,38 +415,6 @@ this.seoService.SetDefaultTags(this.Title, this.Description, this.ImageUrl);`
     ]
   },
   {
-    Name: 'FAQ',
-    Description: 'Quick answers to quick questions',
-    Children: [
-      {
-        Name: 'Can I use Sass for styles?',
-        Description: `<p>Yes!</p>
-<p>If you're using the cli, scaffold your project with <code>fyord new MyProjectName scss</code> to default all css files to use the .scss extension.</p>
-<p>If you've already scaffolded your app, but want to switch the default to scss, run the <code>fyord configure</code> command and set the style extension setting to scss.</p>
-<p>Alternatively, or if you aren't using the cli, simply change any .css file to .scss to use sass.</p>`
-      },
-      {
-        Name: 'Can I just use JavaScript?',
-        Description: `Probably, but we don't currently support vanilla JavaScript, so you'll be on your own.
-<p>We intend Fyord to be TypeScript first, but will leave the door open to JavaScript support at a later time.</p>`
-      },
-      {
-        Name: 'How do I route on the client?',
-        Description: `<p>Just declare normal anchor tags in your markup!</p>
-<p>All anchor tags with a local href, that aren't target blank, will be automatically routed on the client.</p>`
-      },
-      {
-        Name: 'How to deploy a static site?',
-        Description: `<ul>
-  <li>Ensure all pages have their <a href="/docs/page#RenderMode">RenderMode</a> set to "static"</li>
-  <li>Build your app</li>
-  <li>Use the cli to <a href="/docs/cli#Pre-render">pre-render</a></li>
-  <li>Deploy the "public" folder!</li>
-</ul>`
-      }
-    ]
-  },
-  {
     Name: 'RawHtml',
     Description: 'An included component that supports rendering a plaintext string',
     Children: [
@@ -482,6 +450,38 @@ Asap(() => {
 });
 
 /* Use within a page\'s Route method to focus each time the page is visited */`
+      }
+    ]
+  },
+  {
+    Name: 'FAQ',
+    Description: 'Quick answers to quick questions',
+    Children: [
+      {
+        Name: 'Can I use Sass for styles?',
+        Description: `<p>Yes!</p>
+<p>If you're using the cli, scaffold your project with <code>fyord new MyProjectName scss</code> to default all css files to use the .scss extension.</p>
+<p>If you've already scaffolded your app, but want to switch the default to scss, run the <code>fyord configure</code> command and set the style extension setting to scss.</p>
+<p>Alternatively, or if you aren't using the cli, simply change any .css file to .scss to use sass.</p>`
+      },
+      {
+        Name: 'Can I just use JavaScript?',
+        Description: `Probably, but we don't currently support vanilla JavaScript, so you'll be on your own.
+<p>We intend Fyord to be TypeScript first, but will leave the door open to JavaScript support at a later time.</p>`
+      },
+      {
+        Name: 'How do I route on the client?',
+        Description: `<p>Just declare normal anchor tags in your markup!</p>
+<p>All anchor tags with a local href, that aren't target blank, will be automatically routed on the client.</p>`
+      },
+      {
+        Name: 'How to deploy a static site?',
+        Description: `<ul>
+  <li>Ensure all pages have their <a href="/docs/page#RenderMode">RenderMode</a> set to "static"</li>
+  <li>Build your app</li>
+  <li>Use the cli to <a href="/docs/cli#Pre-render">pre-render</a></li>
+  <li>Deploy the "public" folder!</li>
+</ul>`
       }
     ]
   }
