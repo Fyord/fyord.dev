@@ -7,7 +7,7 @@ import { Navlinks } from '../../navLinks';
 import styles from './home.module.scss';
 
 export class HomePage extends Page {
-  Route = (route: Route) => route.path === '/';
+  Route = async (route: Route) => route.path === '/';
   Template = async () => {
     return <div class={styles[StyleName.Home]}>
       <header class={styles[StyleName.Header]}>

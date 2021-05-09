@@ -16,7 +16,7 @@ npm start`;
 export class Docs extends Page {
   Title = 'Docs';
   Description = 'Official docs for the Fyord framework';
-  Route = (route: Route) => {
+  Route = async (route: Route) => {
     if (route.path === '/docs') {
       if (!this.searchTerm && route?.queryParams.has(searchTermParamKey)) {
         this.searchTerm = route.queryParams.get(searchTermParamKey) as string;

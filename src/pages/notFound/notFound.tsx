@@ -5,7 +5,7 @@ import styles from './notFound.module.scss';
 export class NotFound extends Page {
   Title = 'Not Found';
   RenderMode = RenderModes.Dynamic;
-  Route = () => true;
+  Route = async () => true;
 
   Template = async (route?: Route) =>
     <div class={styles.container}>

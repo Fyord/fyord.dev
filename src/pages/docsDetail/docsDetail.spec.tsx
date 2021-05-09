@@ -24,9 +24,9 @@ describe('DocsDetail', () => {
     expect(classUnderTest.Route(route)).toBeTruthy();
   });
 
-  it('should return false for routes that do not match', () => {
+  it('should return false for routes that do not match', async () => {
     const route = { path: '/not-found' } as Route;
-    expect(classUnderTest.Route(route)).toBeFalsy();
+    expect(await classUnderTest.Route(route)).toBeFalsy();
   });
 
   it('should render template', async () => {

@@ -21,7 +21,7 @@ function scrollToTopOrHash(route: Route | undefined) {
   const app = App.Instance(process.env.NODE_ENV || Environments.Production);
   await app.Start(defaultLayout);
 
-  app.Router.Route.Subscribe((route?: Route) => {
+  app.Router.Route.Subscribe(async (route?: Route) => {
     Asap(() => {
       scrollToTopOrHash(route);
     });

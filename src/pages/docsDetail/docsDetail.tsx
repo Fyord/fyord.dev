@@ -6,7 +6,7 @@ import styles from './docsDetail.module.scss';
 export class DocsDetail extends Page {
   private documentation: Documentation | undefined;
 
-  Route = (route: Route) => {
+  Route = async (route: Route) => {
     const docsName = route.routeParams?.[1];
     this.documentation = Docs.find(d => d.Name.toLowerCase() === docsName);
 
@@ -33,7 +33,7 @@ export class DocsDetail extends Page {
             <div class={`${styles.body} ${c.Snippet ? '' : styles.fullWidth}`}>
               <h2 id={c.Name}>{c.Name}</h2>
               {c.Type && <p><pre><code>{c.Type}</code></pre></p>}
-              <div>{await new RawHtml(c.Description).Render()}</div>
+              <div>{await new RawHtml(c.Description, false).Render()}</div>
             </div>
 
             {c.Snippet && <div class={styles.example}>
