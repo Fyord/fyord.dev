@@ -1,4 +1,7 @@
 /* eslint-disable max-lines */
+
+import { tutorial } from './tutorial';
+
 /* eslint-disable max-len */
 export type Documentation = {
   Name: string,
@@ -12,7 +15,8 @@ export type Documentation = {
   }[]
 };
 
-export const Docs: Documentation[] = [
+export const DocsData: Documentation[] = [
+  tutorial,
   {
     Name: 'Cli',
     Description: 'A companion CLI to the Fyord framework',

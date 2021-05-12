@@ -1,6 +1,6 @@
 import { Page, ParseJsx, Route, Fragment, RawHtml } from 'fyord';
 import { DocsNav, Header, SnippetComponent } from '../../components/module';
-import { Docs, Documentation } from '../../docs';
+import { DocsData, Documentation } from '../docs/docsData';
 import styles from './docsDetail.module.scss';
 
 export class DocsDetail extends Page {
@@ -8,7 +8,7 @@ export class DocsDetail extends Page {
 
   Route = async (route: Route) => {
     const docsName = route.routeParams?.[1];
-    this.documentation = Docs.find(d => d.Name.toLowerCase() === docsName);
+    this.documentation = DocsData.find(d => d.Name.toLowerCase() === docsName);
 
     if (this.documentation) {
       this.Title = this.documentation.Name;

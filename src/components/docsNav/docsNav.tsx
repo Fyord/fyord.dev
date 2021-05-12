@@ -1,6 +1,6 @@
 import { Component, ParseJsx, Fragment, State } from 'fyord';
 import { Strings } from 'tsbase/Functions/Strings';
-import { Docs } from '../../docs';
+import { DocsData } from '../../pages/docs/docsData';
 import { Icons } from '../../icons';
 import styles from './docsNav.module.scss';
 
@@ -15,7 +15,7 @@ export class DocsNav extends Component {
       <li>
         <a href="/docs">Getting Started</a>
       </li>
-      {Docs.map(d => <li class={this.expandedDocRoot === d.Name ? styles.expanded : Strings.Empty}>
+      {DocsData.map(d => <li class={this.expandedDocRoot === d.Name ? styles.expanded : Strings.Empty}>
         {d.Children &&
           <button
             onclick={() => this.expandedDocRoot = this.expandedDocRoot !== d.Name ? d.Name : Strings.Empty}

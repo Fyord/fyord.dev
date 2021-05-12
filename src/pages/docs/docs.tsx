@@ -3,7 +3,7 @@ import { Queryable } from 'tsbase/Collections/Queryable';
 import { Strings } from 'tsbase/Functions/Strings';
 import { Header } from '../../components/header/header';
 import { DocsNav, SnippetComponent } from '../../components/module';
-import { Docs as docsData, Documentation } from '../../docs';
+import { DocsData as docsData, Documentation } from './docsData';
 import styles from './docs.module.scss';
 
 const searchTermParamKey = 'search';
@@ -91,7 +91,9 @@ export class Docs extends Page {
       </> :
       <div class={styles.gettingStarted}>
         <h2>Getting Started</h2>
-        <p>Scaffold a new Fyord app with our CLI and dive right in!</p>
+        <p>Our <a href="/docs/tutorial">tutorial</a> is a great place to start. There you'll build and deploy a blog using Fyord,
+          Contenful, and Firebase.</p>
+        <p>Or, for a "quick start" experience simply scaffold a new Fyord app with our CLI and dive right in!</p>
 
         {await new SnippetComponent(quickStart).Render()}
       </div>
