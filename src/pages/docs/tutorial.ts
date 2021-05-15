@@ -109,9 +109,50 @@ export class Contentful implements IContentful {
     {
       Name: 'Update Content Security Policy (CSP)',
       Description: `<p>The <em>src/index.html</em> contains a CSP which will block content from unapproved sources.</p>
-<p>It's a great security practice to use a CSP, and newly scaffolded Fyord project include them. Learn more about them <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP" target="_blank">here</a>.</p>
+<p>It's a great security practice to use a CSP, and newly scaffolded Fyord projects include them. Learn more about them <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP" target="_blank">here</a>.</p>
 <p>Update the line starting with "connect-src" in your <em>index.html</em> with the following, replacing "SPACE_ID" with your space id:</p>`,
       Snippet: 'connect-src \'self\' https://cdn.contentful.com/spaces/SPACE_ID/;'
+    },
+    {
+      Name: 'Scaffold the Home/List page',
+      Description: `<p>We're going to need a homepage that lists out our posts.</p>
+<p>Let's delete the existing welcome page and use the cli to scaffold a new page for us.</p>
+<p><em>*commands assume you are in the project root</em></p>`,
+      Snippet: `rm -rf src/pages/welcome
+cd src/pages
+fyord generate page home
+`
+    },
+    {
+      Name: 'Update the Home/List page',
+      Description: `<p>Now, we're going to want to update the title, route, and template of the new page.</p>
+<p>Update the contents of <code>home.tsx</code> with the following to accomplish this:</p>`,
+      Snippet: `import { Page, ParseJsx, Route } from 'fyord';
+import { PostCard } from '../../components/module';
+import { IPost } from '../../core/contentTypes/iPost';
+import { Contentful } from '../../core/services/module';
+import styles from './home.module.css';
+
+export class Home extends Page {
+  Title = 'Home';
+  Route = async (route: Route) => route.path === '/';
+
+  Template = async () => {
+    const entries = await Contentful.Instance().GetEntries<IPost>({
+      content_type: 'post'
+    });
+
+    return <div class={styles.container}>
+      <h1>My Fyord Blog</h1>
+
+      <ul>
+        {await Promise.all(entries.items.map(async e => <li>
+          {await new PostCard(e.fields).Render()}
+        </li>))}
+      </ul>
+    </div>;
+  }
+}`
     }
   ]
 };
