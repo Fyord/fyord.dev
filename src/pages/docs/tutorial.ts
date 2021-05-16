@@ -42,7 +42,7 @@ npm start`
     {
       Name: 'Scaffold Contentful Service',
       Description: `<p>Use the below command(s) to install the Contentful sdk and scaffold a new singleton service.</p>
-<p>*The cli command assumes you're terminal location is the root of your project. Adjust accordingly if this is not the case.</p>
+<p>*The cli command assumes your terminal location is the root of your project. Adjust accordingly if this is not the case.</p>
 <p>You could also scaffold this service anywhere you like, the below is just a convenience.</p>`,
       Snippet: `npm i contentful @contentful/rich-text-types
 mkdir src/services && touch src/services/module.ts && cd src/services
@@ -68,7 +68,7 @@ export interface IPost {
     {
       Name: 'Implement Contentful Service',
       Description: `<p>In this step we'll wire up the service we created to make use of the sdk we installed.</p>
-<p>If you skipped the last step, consider implementing a similar service that returns some dummy data in the same shape as the <em>Post</em> we'll be describing.</p>
+<p>If you skipped the contentful step earlier, consider implementing a similar service that returns some dummy data in the same shape as the <em>Post</em> we'll be describing.</p>
 <p>Update the <em>src/services/contentful/contentful.ts</em> with the below snippet.</p>
 <p>*Note that you will need to replaces the "SPACE_ID" and "ACCESS_TOKEN" placeholders with the values from the api key you created earlier.</p>`,
       Snippet: `import * as sdk from 'contentful';
