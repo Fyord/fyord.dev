@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 /* eslint-disable max-len */
 import { Documentation } from './docsData';
 
@@ -42,7 +43,6 @@ npm start`
     {
       Name: 'Scaffold Contentful Service',
       Description: `<p>Use the below command(s) to install the Contentful sdk and scaffold a new singleton service.</p>
-<p>*The cli command assumes your terminal location is the root of your project. Adjust accordingly if this is not the case.</p>
 <p>You could also scaffold this service anywhere you like, the below is just a convenience.</p>`,
       Snippet: `npm i contentful @contentful/rich-text-types
 mkdir src/services && touch src/services/module.ts && cd src/services
@@ -116,8 +116,7 @@ export class Contentful implements IContentful {
     {
       Name: 'Scaffold the Home/List page',
       Description: `<p>We're going to need a homepage that lists out our posts.</p>
-<p>Let's delete the existing welcome page and use the cli to scaffold a new page for us.</p>
-<p><em>*commands assume you are in the project root</em></p>`,
+<p>Let's delete the existing welcome page and use the cli to scaffold a new page for us.</p>`,
       Snippet: `rm -rf src/pages/welcome
 cd src/pages
 fyord generate page home
@@ -146,12 +145,178 @@ export class Home extends Page {
       <h1>My Fyord Blog</h1>
 
       <ul>
-        {await Promise.all(entries.items.map(async e => <li>
-          {await new PostCard(e.fields).Render()}
-        </li>))}
+        {entries.items.map(e => <li>
+          <a href={\`/posts/\${e.fields.slug}\`}>{e.fields.title} | {new Date(e.fields.date).toLocaleDateString()}</a>
+        </li>)}
       </ul>
     </div>;
   }
+}`
+    },
+    {
+      Name: 'Add a post page',
+      Description: `<p>Use the CLI to scaffold a new 'post' page.</p>
+<p>This time we'll use the aliased version of the cli's generate command (g = generate, p = page).</p>`,
+      Snippet: `cd src/pages
+fyord g p post`
+    },
+    {
+      Name: 'Implement the post page',
+      Description: `<p>Now let's get this page displaying our post details.</p>
+<p>This page's route function will be quite a bit different. Consider that this page will have a different title depending on the post data. Also consider how 404/not found functionality.</p>
+<p>Route resolution is very flexible in the Fyord framework. We're not just talking pattern matching here. You'll notice in our implementation for this page's route, we determine if the pattern matches, but then also determine if we have the data to support rendering the page; if not, we let our 404 page catch it. This also allows us to intuitively set the dynamic page title based on the dynamic content.</p>
+<p>Go ahead and update the <code>post.tsx</code> with the following:</p>`,
+      Snippet: `import { Page, ParseJsx, RawHtml, Route } from 'fyord';
+import { IPost } from '../../core/contentTypes/post';
+import { Contentful } from '../../core/services/module';
+import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
+import styles from './post.module.css';
+
+export class Post extends Page {
+  private post!: IPost;
+
+  Route = async (route: Route) => {
+    let routeMatch = false;
+
+    if (route.path.startsWith('/posts/') && route.routeParams.length === 2) { /* check the pattern */
+      const slug = route?.routeParams[1];
+      const postsQueryResults = await Contentful.Instance().GetEntries<IPost>({
+        content_type: 'post',
+        'fields.slug': slug || ''
+      });
+
+      if (postsQueryResults.items.length >= 1) { /* check if we have the data */
+        this.post = postsQueryResults.items[0].fields;
+        this.Title = this.post.title;
+        routeMatch = true;
+      }
+    }
+
+    return routeMatch;
+  };
+
+  Template = async () => {
+    return <div class={styles.container}>
+      <article>
+        <h1>{this.post.title}</h1>
+        {this.post.image && <div class={styles.imageWrapper}>
+          <img src={\`https:\${this.post.image.fields.file.url}\`} alt={this.post.image.fields.description} />
+        </div>}
+        <p>{new Date(this.post.date).toLocaleDateString()}</p>
+
+        {await new RawHtml(documentToHtmlString(this.post.body)).Render()}
+      </article>
+    </div>;
+  }
+}`
+    },
+    {
+      Name: 'Update the layout',
+      Description: `<p>At this point, we've got functioning list and detail pages for our posts.</p>
+<p>Let's take moment to update the layout with a header containing a home link and a basic footer.</p>
+<p>One thing to note about Fyord routing, is that <strong>the</strong> <code>main</code> element is what is updated during routing, so you can think of it as your router "outlet."</p>
+<p>Open <code>src/layout.tsx</code> and update it with the following:</p>`,
+      Snippet: `import { Fragment, ParseJsx } from 'fyord';
+
+export const defaultLayout = async () => <>
+  <header>
+    <a href="/">Home</a>
+  </header>
+
+  <main></main>
+
+  <footer>
+    <hr />
+    <p>My Epic Blog Circa {new Date().getFullYear()}</p>
+  </footer>
+</>;`
+    },
+    {
+      Name: 'Update home styles',
+      Description: 'Let\'s add just a tad of css here - <code>src/pages/home/home.module.css</code>.',
+      Snippet: `
+.container {
+  display: block;
+}
+
+.container ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}`
+    },
+    {
+      Name: 'Update post styles',
+      Description: 'And another dash of styles on the post page - <code>src/pages/post/post.module.css</code>.',
+      Snippet: `.container {
+  display: block;
+}
+
+.imageWrapper {
+  width: 100%;
+  max-height: 60vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.imageWrapper img {
+  height: 100%;
+  width: 100%;
+}`
+    },
+    {
+      Name: 'Create post card component',
+      Description: `<p>We can do better than just having links to our posts. Listing them as "cards" would give us more options and feel nicer.</p>
+<p>Let's create a component for encapsulating a post card.</p>`,
+      Snippet: `cd src/components
+fyord generate component postCard`
+    },
+    {
+      Name: 'Implement post card component',
+      Description: 'Update <code>postCard.tsx</code> with the following:',
+      Snippet: `import { Component, ParseJsx } from 'fyord';
+import { IPost } from '../../core/contentTypes/iPost';
+import styles from './postCard.module.css';
+
+export class PostCard extends Component {
+  constructor(private post: IPost) {
+    super();
+  }
+
+  Template = async () => <a class={styles.container} href={\`/posts/\${this.post.slug}\`}>
+    <h2>{this.post.title}</h2>
+    <p>{new Date(this.post.date).toLocaleDateString()}</p>
+    <p>{this.post.description}</p>
+  </a>;
+}`
+    },
+    {
+      Name: 'Add styles to post card component',
+      Description: 'Spruce it up a bit by adding the following to <code>postCard.module.css</code>:',
+      Snippet: `.container {
+  display: block;
+  border: 1px solid black;
+  margin-bottom: 40px;
+  text-decoration: none;
+  color: black;
+}
+
+.container:visited {
+  color: black;
+};
+
+.container h2 {
+  background-color: black;
+  color: white;
+  margin: 0;
+  padding: 10px;
+}
+
+.container p {
+  margin: 0;
+  padding: 10px;
 }`
     }
   ]

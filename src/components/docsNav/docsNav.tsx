@@ -26,7 +26,8 @@ export class DocsNav extends Component {
         {d.Children && <>
           <ul>
             {d.Children.map(c => <li>
-              <a onclick={() => this.expanded = false} href={`/docs/${d.Name.toLowerCase()}#${c.Name}`}>{c.Name}</a>
+              <a onclick={() => this.expanded = false} href={`/docs/${d.Name.toLowerCase()}#${c.Name}`}>{c.Name.length >= 15 ?
+                `${c.Name.slice(0, 15)}...` : c.Name}</a>
             </li>)}
           </ul>
         </>}
