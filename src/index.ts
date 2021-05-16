@@ -2,7 +2,6 @@ import { App, Environments, Route, Asap } from 'fyord';
 import { defaultLayout } from './core/module';
 
 import './styles/base.scss';
-import './pages/module';
 
 function scrollToTopOrHash(route: Route | undefined) {
   const hashElementId = route?.hashParams[0];
@@ -29,3 +28,5 @@ function scrollToTopOrHash(route: Route | undefined) {
 
   window['app'] = app;
 })();
+
+import './pages/module';
