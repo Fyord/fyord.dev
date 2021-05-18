@@ -15,9 +15,11 @@ body {
   background-attachment: fixed;
 }
 
-a {
+a,
+summary {
   color: #4F6D7A;
   text-decoration: none;
+  cursor: pointer;
 
   &:hover,
   &:focus,

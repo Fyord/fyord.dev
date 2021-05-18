@@ -42,8 +42,8 @@ npm start`
     },
     {
       Name: 'Scaffold Contentful Service',
-      Description: `<p>Use the below command(s) to install the Contentful sdk and scaffold a new singleton service.</p>
-<p>You could also scaffold this service anywhere you like, the below is just a convenience.</p>`,
+      Description: `<p>Use the given command(s) to install the Contentful sdk and scaffold a new singleton service.</p>
+<p>You could also scaffold this service anywhere you like, the given snippet is just a convenience.</p>`,
       Snippet: `npm i contentful @contentful/rich-text-types
 mkdir src/services && touch src/services/module.ts && cd src/services
 fyord generate singleton contentful
@@ -52,7 +52,7 @@ fyord generate singleton contentful
     {
       Name: 'Add a Type to Represent Posts',
       Description: `<p>Soon we'll be pulling in posts from Contentful. Let's make working with that data easier by creating a type we can use.</p>
-<p>Add the below as a file wherever you like (ex. src/contentTypes/iPost.ts):</p>`,
+<p>Add the given snippet as a file wherever you like (ex. src/contentTypes/iPost.ts):</p>`,
       Snippet: `import { Document } from '@contentful/rich-text-types';
 import { Asset } from 'contentful';
 
@@ -69,7 +69,7 @@ export interface IPost {
       Name: 'Implement Contentful Service',
       Description: `<p>In this step we'll wire up the service we created to make use of the sdk we installed.</p>
 <p>If you skipped the contentful step earlier, consider implementing a similar service that returns some dummy data in the same shape as the <em>Post</em> we'll be describing.</p>
-<p>Update the <em>src/services/contentful/contentful.ts</em> with the below snippet.</p>
+<p>Update the <em>src/services/contentful/contentful.ts</em> with the given snippet.</p>
 <p>*Note that you will need to replaces the "SPACE_ID" and "ACCESS_TOKEN" placeholders with the values from the api key you created earlier.</p>`,
       Snippet: `import * as sdk from 'contentful';
 
@@ -232,16 +232,34 @@ export const defaultLayout = async () => <>
 </>;`
     },
     {
-      Name: 'Update home styles',
-      Description: 'Let\'s add just a tad of css here - <code>src/pages/home/home.module.css</code>.',
-      Snippet: `
-.container {
-  display: block;
+      Name: 'Update base styles',
+      Description: '<p>Let\'s update the base styles at <code>src/styles/base.css</code>. These global styles apply to every component.</p>',
+      Snippet: `@import './normalize.css';
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400&display=swap');
+
+* {
+  box-sizing: border-box;
 }
 
-.container ul {
+body {
+  font-family: Rubik, Arial, Helvetica, sans-serif;
+  margin: 20px;
+}
+
+header ul {
+  display: flex;
+}
+
+header ul li {
+  margin-right: 20px;
+}
+
+main {
+  min-height: calc(80vh);
+}
+
+ul {
   list-style: none;
-  margin: 0;
   padding: 0;
 }`
     },
@@ -318,6 +336,296 @@ export class PostCard extends Component {
   margin: 0;
   padding: 10px;
 }`
+    },
+    {
+      Name: 'Use post card component in home page',
+      Description: `<p>Now that we have the post card component implemented, let\'s use it in our list page.</p>
+<p>Update your list in <code>src/pages/home/home.tsx</code> with the list shown in the snippet. Notice how the Promise.all syntax allows us to use <code>Array.map</code> asynchronously.</p>`,
+      Snippet: `<ul>
+  {await Promise.all(entries.items.map(async e => <li>
+    {await new PostCard(e.fields).Render()}
+  </li>))}
+</ul>`
+    },
+    {
+      Name: 'Create a search page',
+      Description: `<p>Eventually we'll have so many blog posts that it might be difficult to find certain ones.</p>
+<p>Let's go ahead and make a search page that allows users to filter our blogs based on a search term they enter.</p>
+<p>Use the cli to scaffold the new page by entering:</p>`,
+      Snippet: `cd src/pages
+fyord g p search`
+    },
+    {
+      Name: 'Implement the search page',
+      Description: `<p>Update <code>search.tsx</code> from the page you just scaffolded with the given code.</p>
+<p>Our search page will have the following features:</p>
+<ul>
+  <li>Input that actively filters posts as the user types</li>
+  <li>Results presented using our post card component</li>
+  <li>Query parameter support allowing linking to search results - /search?query=post</li>
+</ul>
+<p>The <code>searchTerm</code> property decorated with <code>@State</code> is the bit of magic that triggers our component to re-render and display new results as the user is typing. Checkout the <a href="/docs/state%20decorators">State Decorators</a> docs for more info.</p>
+<p>This page is also a good example of event binding in fyord. Notice the form and input have onsubmit and oninput bound respectively. Adding event listeners in fyord is a simple as prefixing "on" in front of any <a href="https://www.w3schools.com/jsref/dom_obj_event.asp">valid dom event</a>.</p>`,
+      Snippet: `import { Page, ParseJsx, Fragment, Route, State } from 'fyord';
+import { IPost } from '../../core/contentTypes/iPost';
+import { Contentful } from '../../core/services/module';
+import { Queryable } from 'tsbase/Collections/Queryable';
+import styles from './search.module.css';
+import { PostCard } from '../../components/module';
+
+const searchInputId = 'searchInput';
+
+export class Search extends Page {
+  Title = 'Search';
+  @State searchTerm = '';
+  private posts!: Array<IPost>;
+  private get searchInputValue(): string {
+    return (document.getElementById(this.Ids(searchInputId)) as HTMLInputElement).value;
+  }
+  private get searchResults(): Array<IPost> {
+    return Queryable.From(this.posts).Search(this.searchTerm).Item;
+  }
+
+  private onSubmit = (e: Event | null): void => {
+    e?.preventDefault();
+    this.App.Router.RouteTo(\`/search?query=\${this.searchTerm}\`);
+  }
+
+  Route = async (route: Route) => {
+    const match = route.path === '/search';
+
+    if (match) {
+      this.searchTerm = route.queryParams.get('query') || '';
+
+      const entries = await Contentful.Instance().GetEntries<IPost>({
+        content_type: 'post'
+      });
+      this.posts = entries.items.map(e => e.fields);
+    }
+
+    return match;
+  }
+
+
+  Template = async (route?: Route) => {
+    return <div class={styles.container}>
+      <h1>Search My Blog</h1>
+
+      <form onsubmit={this.onSubmit}>
+        <input id={this.Ids(searchInputId)} type="search"
+          placeholder="search keyword"
+          oninput={() => this.searchTerm = this.searchInputValue}
+          value={route?.queryParams.get('query') || ''}>
+        </input>
+      </form>
+
+      <section>
+        {this.searchTerm.trim().length >= 3 ?
+          <>
+            {this.searchResults.length >= 1 ?
+              <ul>
+                {await Promise.all(this.searchResults.map(async r => <li>
+                  {await new PostCard(r).Render()}
+                </li>))}
+              </ul> :
+              <p>No results for "{this.searchTerm}"</p>}
+          </> :
+          <p>Start typing to search...</p>}
+      </section>
+    </div>;
+  }
+}`
+    },
+    {
+      Name: 'Fix the tests',
+      Description: `<p>Up to this point we've ignored the spec files that have been scaffolded alongside our pages, components, etc.</p>
+<p>Let's take a few minutes to fix the tests we already have and see where that puts us coverage wise.</p>
+<p>Run <code>npm run test-once | npm run test</code> in your terminal to run the test suite.</p>
+<p>Now, go forth and correct the errors in the tests. Most should be relatively easy to correct. If you get stumped feel free to use the below references to cheat ;)</p>
+<ul>
+  <li>
+    <details>
+      <summary>home</summary>
+<pre><code>import { RenderModes, Route, TestHelpers, Asap } from 'fyord';
+import { Home } from './home';
+
+describe('Home', () => {
+  let classUnderTest: Home;
+  const pageMocks = TestHelpers.GetComponentMocks();
+
+  beforeEach(() => {
+    classUnderTest = new Home(
+      pageMocks.mockSeoService.Object,
+      pageMocks.mockApp.Object);
+  });
+
+  it('should construct', () => {
+    expect(classUnderTest).toBeDefined();
+  });
+
+  it('should have the correct render mode', () => {
+    expect(classUnderTest.RenderMode = RenderModes.Hybrid);
+  });
+
+  it('should return true for routes that match', async () => {
+    const route = { path: '/' } as Route;
+    expect(await classUnderTest.Route(route)).toBeTruthy();
+  });
+
+  it('should return false for routes that do not match', async () => {
+    const route = { path: '/not-found' } as Route;
+    expect(await classUnderTest.Route(route)).toBeFalsy();
+  });
+
+  it('should render template', async () => {
+    expect(await classUnderTest.Template()).toBeDefined();
+  });
+
+  it('should have appropriate behavior', async () => {
+    document.body.innerHTML = await classUnderTest.Render();
+
+    Asap(() => {
+      // fire any attached events
+    });
+
+    const behaviorExpectationsMet = await TestHelpers.TimeLapsedCondition(() => {
+      return true; // assertions proving expected behavior was met
+    });
+    expect(behaviorExpectationsMet).toBeTruthy();
+  });
+});</code></pre>
+    </details>
+  </li>
+  <li>
+    <details>
+      <summary>post</summary>
+      <code><pre>import { RenderModes, Route, TestHelpers, Asap } from 'fyord';
+import { Mock } from 'tsmockit';
+import { IContentful } from '../../core/services/module';
+import { Post } from './post';
+import { IPost } from '../../core/contentTypes/iPost';
+
+describe('Post', () => {
+  let classUnderTest: Post;
+  const pageMocks = TestHelpers.GetComponentMocks();
+  const mockContentful = new Mock<IContentful>();
+  const fakeEntry = {
+    title: 'test'
+  } as IPost;
+
+  beforeEach(() => {
+    mockContentful.Setup(c => c.GetEntries({}), { items: [ { fields: fakeEntry }] });
+
+    classUnderTest = new Post(
+      mockContentful.Object,
+      pageMocks.mockSeoService.Object,
+      pageMocks.mockApp.Object);
+  });
+
+  it('should construct', () => {
+    expect(classUnderTest).toBeDefined();
+  });
+
+  it('should have the correct render mode', () => {
+    expect(classUnderTest.RenderMode = RenderModes.Hybrid);
+  });
+
+  it('should return true for routes that match', async () => {
+    const route = { path: '/posts/test', routeParams: ['post', 'test'] } as Route;
+    expect(await classUnderTest.Route(route)).toBeTruthy();
+  });
+
+  it('should return false for routes that do not match', async () => {
+    const route = { path: '/not-found' } as Route;
+    expect(await classUnderTest.Route(route)).toBeFalsy();
+  });
+
+  it('should render template', async () => {
+    classUnderTest['post'] = fakeEntry;
+    expect(await classUnderTest.Template()).toBeDefined();
+  });
+
+  it('should have appropriate behavior', async () => {
+    classUnderTest['post'] = fakeEntry;
+    document.body.innerHTML = await classUnderTest.Render();
+
+    Asap(() => {
+      // fire any attached events
+    });
+
+    const behaviorExpectationsMet = await TestHelpers.TimeLapsedCondition(() => {
+      return true; // assertions proving expected behavior was met
+    });
+    expect(behaviorExpectationsMet).toBeTruthy();
+  });
+});</code></pre>
+    </details>
+  </li>
+  <li>
+    <details>
+      <summary>search</summary>
+      <code><pre>import { RenderModes, Route, TestHelpers, Asap } from 'fyord';
+import { Search } from './search';
+
+describe('Search', () => {
+  let classUnderTest: Search;
+  const pageMocks = TestHelpers.GetComponentMocks();
+
+  beforeEach(() => {
+    classUnderTest = new Search(
+      pageMocks.mockSeoService.Object,
+      pageMocks.mockApp.Object);
+  });
+
+  it('should construct', () => {
+    expect(classUnderTest).toBeDefined();
+  });
+
+  it('should have the correct render mode', () => {
+    expect(classUnderTest.RenderMode = RenderModes.Hybrid);
+  });
+
+  it('should return true for routes that match', async () => {
+    const route = { path: '/search', queryParams: new Map<string, string>() } as Route;
+    expect(await classUnderTest.Route(route)).toBeTruthy();
+  });
+
+  it('should return false for routes that do not match', async () => {
+    const route = { path: '/not-found' } as Route;
+    expect(await classUnderTest.Route(route)).toBeFalsy();
+  });
+
+  it('should render template', async () => {
+    expect(await classUnderTest.Template()).toBeDefined();
+  });
+
+  it('should have appropriate behavior', async () => {
+    document.body.innerHTML = await classUnderTest.Render();
+
+    Asap(() => {
+      // fire any attached events
+    });
+
+    const behaviorExpectationsMet = await TestHelpers.TimeLapsedCondition(() => {
+      return true; // assertions proving expected behavior was met
+    });
+    expect(behaviorExpectationsMet).toBeTruthy();
+  });
+});</code></pre>
+    </details>
+  </li>
+</ul>
+<p>Once you get em all passing, open the test coverage report at <code>coverage/lcov-report/index.html</code></p>
+<p>Not too bad for just keeping the tests the cli gave you passing right?</p>
+<p>If you feel up to it, see if you can close some of the coverage gaps. For what it's worth, the Fyord framework has 100% statement and branch coverage and that bar is definitely within reach for any Fyord app. But, we'll dive into that subject in more detail in another tutorial.</p>`
+    },
+    {
+      Name: 'Add a pipeline',
+      Description: `<p>This project definitely needs a pipeline. Let's scaffold one with the cli. Yeah, the cli is pretty handy isn't it.</p>
+<p>Use the given command to scaffold a github action that will run on all pull requests and merges to master.</p>
+<p>Exchange 'github' for 'azure' if you'd rather use Azure Pipelines.</p>
+<p>After the pipeline is generated, push that bad boy and watch it run. Also checkout the public artifact. This is what we'll want to deploy.</p>`,
+      Snippet: 'fyord g pipeline github master'
     }
   ]
 };
