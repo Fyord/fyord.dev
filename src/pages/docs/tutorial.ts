@@ -9,7 +9,8 @@ export const tutorial: Documentation = {
     {
       Name: 'Scaffold App',
       Description: `<p>Let\'s get started by installing the fyord-cli and using it spin up a new project.</p>
-<p>After running the following commands, checkout the running site at http://localhost:4200.</p>
+<p>Ensure you have <a href="https://nodejs.org/en/" target="_blank">node/npm</a> and <a href="https://git-scm.com/" target="_blank">git</a> installed before continuing.</p>
+<p>After running the given commands, checkout the running site at http://localhost:4200.</p>
 <p>Then take a moment to read the README; it's short don't worry.</p>`,
       Snippet: `npm i -g fyord-cli
 fyord new fyord-tutorial
@@ -110,7 +111,7 @@ export class Contentful implements IContentful {
       Name: 'Update Content Security Policy (CSP)',
       Description: `<p>The <em>src/index.html</em> contains a CSP which will block content from unapproved sources.</p>
 <p>It's a great security practice to use a CSP, and newly scaffolded Fyord projects include them. Learn more about them <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP" target="_blank">here</a>.</p>
-<p>Update the line starting with "connect-src" in your <em>index.html</em> with the following, replacing "SPACE_ID" with your space id:</p>`,
+<p>Update the line starting with "connect-src" in your <em>index.html</em> with the given snippet, replacing "SPACE_ID" with your space id:</p>`,
       Snippet: 'connect-src \'self\' https://cdn.contentful.com/spaces/SPACE_ID/;'
     },
     {
@@ -365,7 +366,7 @@ fyord g p search`
   <li>Query parameter support allowing linking to search results - /search?query=post</li>
 </ul>
 <p>The <code>searchTerm</code> property decorated with <code>@State</code> is the bit of magic that triggers our component to re-render and display new results as the user is typing. Checkout the <a href="/docs/state%20decorators">State Decorators</a> docs for more info.</p>
-<p>This page is also a good example of event binding in fyord. Notice the form and input have onsubmit and oninput bound respectively. Adding event listeners in fyord is a simple as prefixing "on" in front of any <a href="https://www.w3schools.com/jsref/dom_obj_event.asp">valid dom event</a>.</p>`,
+<p>This page is also a good example of event binding in fyord. Notice the form and input have onsubmit and oninput bound respectively. Adding event listeners in fyord is a simple as prefixing "on" in front of any <a href="https://www.w3schools.com/jsref/dom_obj_event.asp" target="_blank">valid dom event</a>.</p>`,
       Snippet: `import { Page, ParseJsx, Fragment, Route, State } from 'fyord';
 import { IPost } from '../../core/contentTypes/iPost';
 import { Contentful } from '../../core/services/module';
