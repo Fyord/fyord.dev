@@ -164,7 +164,7 @@ fyord g p post`
     {
       Name: 'Implement the post page',
       Description: `<p>Now let's get this page displaying our post details.</p>
-<p>This page's route function will be quite a bit different. Consider that this page will have a different title depending on the post data. Also consider how 404/not found functionality.</p>
+<p>This page's route function will be quite a bit different. Consider that this page will have a different title depending on the post data. Also consider how 404/not found functionality should work.</p>
 <p>Route resolution is very flexible in the Fyord framework. We're not just talking pattern matching here. You'll notice in our implementation for this page's route, we determine if the pattern matches, but then also determine if we have the data to support rendering the page; if not, we let our 404 page catch it. This also allows us to intuitively set the dynamic page title based on the dynamic content.</p>
 <p>Go ahead and update the <code>post.tsx</code> with the following:</p>`,
       Snippet: `import { Page, ParseJsx, RawHtml, Route } from 'fyord';
@@ -627,6 +627,85 @@ describe('Search', () => {
 <p>Exchange 'github' for 'azure' if you'd rather use Azure Pipelines.</p>
 <p>After the pipeline is generated, push that bad boy and watch it run. Also checkout the public artifact. This is what we'll want to deploy.</p>`,
       Snippet: 'fyord g pipeline github master'
+    },
+    {
+      Name: 'Add a firebase project',
+      Description: `<p>Speaking of deployment, let\'s go ahead and get a firebase project setup to deploy to.</p>
+<ol>
+  <li>Head over to <a href="https://console.firebase.google.com/" target="_blank">https://console.firebase.google.com</a> and setup an account</li>
+  <li>Once you get past the intro spiel, add a new project by clicking the "add project" button</li>
+  <li>Name it whatever you like, click continue, and feel free to uncheck any add ons related to analytics they try to push on you</li>
+  <li>That's all for now. Firebase has a bunch of cool features, and in the next step(s) we'll be taking advantage of the hosting</li>
+</ol>`
+    },
+    {
+      Name: 'Firebase init in our project',
+      Description: `<p>The given commands will hook you up with the firebase cli globally as well as in your local project</p>
+<p>We'll need it in the local project in a later step.</p>
+<p>It'll also have you login, which will let the firebase cli know how to find that project we made.</p>
+<p>After logging in, just follow the steps in the init command to select the following:</p>
+<ul>
+  <li>Hosting</li>
+  <li>Use an existing project</li>
+  <li>{your project name}</li>
+  <li>press enter for default "public" directory</li>
+  <li>Enter "n" to not configure as a single page app (since we'll be pre-rendering)</li>
+  <li>Enter "n" for automatic builds in github, we'll just amend our existing pipeline</li>
+  <li>Then, once again enter "n" to not overwrite any index.html file that may be in our public directory</li>
+</ul>`,
+      Snippet: `npm i -g firebase-tools
+npm i --save-dev firebase-tools
+firebase login
+firebase init`
+    },
+    {
+      Name: 'Update firebase.json',
+      Description: 'Update your firebase.json file to the given value',
+      Snippet: `{
+  "hosting": {
+    "public": "public",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "cleanUrls": true
+  }
+}`
+    },
+    {
+      Name: 'Update package scripts',
+      Description: 'We need to make a slight modification to our build to generate a 404.html for firebase hosting. Add/update the given commands in package.json.',
+      Snippet: `"build": "webpack --config webpack.prod.js && npm run addNotFoundPage",
+"addNotFoundPage": "cp public/index.html public/404.html",
+"deploy": "firebase deploy --token $FIREBASE_TOKEN"`
+    },
+    {
+      Name: 'Get CI deploy token',
+      Description: `<p>In order to give GitHub access to deploy our site to firebase, it'll need a deploy token</p>
+<p>Execute the given command to generate one. Sign in if/when a browser window pops up, then copy the token that outputs to the terminal.</p>
+<p>Next go to your GitHub project > settings > secrets > new repository secret. Use the name "FIREBASE_TOKEN" and paste the token in the value space.</p>`,
+      Snippet: 'firebase login:ci'
+    },
+    {
+      Name: 'Update pipeline with deploy step',
+      Description: 'Now, just update the pipeline we created earlier by adding the given step to the bottom (.github/workflows/ci.yml). This step will trigger a deploy on merges to your trunk branch (master).',
+      Snippet: `- name: Deploy
+  if: \${{ github.event_name != 'pull_request' }}
+  env:
+    FIREBASE_TOKEN: \${{ secrets.FIREBASE_TOKEN }}
+  run: npm run deploy`
+    },
+    {
+      Name: 'You did it!',
+      Description: `<p>Push your changes, and watch your brand new blog get deployed to firebase!</p>
+<p>The pipeline output will contain your site's address, or you can hop back over to the <a href="https://console.firebase.google.com/" target="_blank">firebase console</a> and find it there.</p>
+<p>You've just built an end-to-end, no bullshit, full-stack blog and even got it deployed!</p>
+<p>Take a moment, pat yourself on the back, play around with what you've built. Iterate on it. Since you have a continuous delivery pipeline every commit to master will end up deployed with no effort on your part.</p>
+<p>Now would also be a good time to checkout the pre-rendering. Feel free to view page source on any page.</p>
+<p>The pre-rendering also adds to extra files to help you out with seo / know which pages are pre-rendered. They are "/sitemap.json" and "/sitemap.xml"; try fetching those as well. You may notice that the origin isn't quite right (http://localhost:7343), this is because the pre-rendering happens via an node express server at build time.</p>
+<p>Run the configure command and past your real origin when prompted for "baseUrl" to correct this.</p>`,
+      Snippet: 'fyord configure'
     }
   ]
 };
