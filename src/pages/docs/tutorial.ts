@@ -703,7 +703,7 @@ firebase init`
 <p>You've just built an end-to-end, no bullshit, full-stack blog and even got it deployed!</p>
 <p>Take a moment, pat yourself on the back, play around with what you've built. Iterate on it. Since you have a continuous delivery pipeline every commit to master will end up deployed with no effort on your part.</p>
 <p>Now would also be a good time to checkout the pre-rendering. Feel free to view page source on any page.</p>
-<p>The pre-rendering also adds to extra files to help you out with seo / know which pages are pre-rendered. They are "/sitemap.json" and "/sitemap.xml"; try fetching those as well. You may notice that the origin isn't quite right (http://localhost:7343), this is because the pre-rendering happens via an node express server at build time.</p>
+<p>The pre-rendering also adds two extra files to help you out with seo / know which pages are pre-rendered. They are "/sitemap.json" and "/sitemap.xml"; try fetching those as well. You may notice that the origin isn't quite right (http://localhost:7343), this is because the pre-rendering happens via an node express server at build time.</p>
 <p>Run the configure command and past your real origin when prompted for "baseUrl" to correct this.</p>`,
       Snippet: 'fyord configure'
     }
