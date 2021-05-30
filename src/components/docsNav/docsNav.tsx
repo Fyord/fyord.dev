@@ -9,7 +9,7 @@ export class DocsNav extends Component {
   @State private expandedDocRoot = Strings.Empty;
 
   Template = async () => <nav class={`${styles.container} ${this.expanded ? styles.expanded : Strings.Empty}`}>
-    <button class={styles.expandButton}
+    <button aria-label="Expand" class={styles.expandButton}
       onclick={() => this.expanded = !this.expanded}>{this.expanded ? Icons.ChevronLeft : Icons.ChevronRight}</button>
     <ul>
       <li>
@@ -17,7 +17,7 @@ export class DocsNav extends Component {
       </li>
       {DocsData.map(d => <li class={this.expandedDocRoot === d.Name ? styles.expanded : Strings.Empty}>
         {d.Children &&
-          <button
+          <button aria-label="Expand"
             onclick={() => this.expandedDocRoot = this.expandedDocRoot !== d.Name ? d.Name : Strings.Empty}
           >{this.expandedDocRoot === d.Name ? Icons.ChevronUp : Icons.ChevronDown}</button>}
 

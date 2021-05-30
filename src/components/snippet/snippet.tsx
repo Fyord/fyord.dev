@@ -34,7 +34,9 @@ export class SnippetComponent extends Component {
           <div class={`${styles[StyleNames.EditorButton]} ${styles[StyleNames.EditorButtonMinimize]}`}></div>
           <div class={`${styles[StyleNames.EditorButton]} ${styles[StyleNames.EditorButtonExpand]}`}></div>
         </div>
-        <button class={styles[StyleNames.EditorButtonCopy]} onclick={this.onCopyButtonClicked}>{this.copyButtonContent}</button>
+        <button aria-label="Copy to Clipboard"
+          class={styles[StyleNames.EditorButtonCopy]}
+          onclick={this.onCopyButtonClicked}>{this.copyButtonContent}</button>
       </div>
       <pre>{await new RawHtml(this.highlightedCodeElement().outerHTML, false).Render()}</pre>
     </div>;

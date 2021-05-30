@@ -11,7 +11,7 @@ export class Header extends Component {
   }
 
   Template = async () => <header class={styles.container}>
-    <a href="/" class={styles.iconWrapper}>{Icons.FyordCircle}</a>
+    <a href="/" aria-label="Home" class={styles.iconWrapper}>{Icons.FyordCircle}</a>
     <h1>{this.heading}</h1>
     {this.description && <p>{this.description}</p>}
   </header>;
