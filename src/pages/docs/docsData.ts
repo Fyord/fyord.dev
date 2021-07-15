@@ -40,7 +40,7 @@ export const DocsData: Documentation[] = [
       {
         Name: 'Generate',
         Description: `<p>Scaffold a fyord app component, page, etc. in the current directory. For components and pages, local module files are updated for greater productivity.</p>
-<p>Available Types: component (c), page (p), singleton (s), pipeline (pl)</p>`,
+<p>Available Types: component (c), page (p), singleton (s), pipeline (pl), custom-element (ce), web-component (wc)</p>`,
         Type: 'fyord generate {type} | fyord g {type}'
       },
       {
@@ -52,6 +52,11 @@ export const DocsData: Documentation[] = [
         Name: 'Pre-render',
         Description: 'Crawls and pre renders pages within the app.',
         Type: 'fyord prerender | fyord pr'
+      },
+      {
+        Name: 'Wasm-init',
+        Description: 'Prepares a fyord project for wasm development using rust',
+        Type: 'fyord wasminit | fyord wi'
       }
     ]
   },
