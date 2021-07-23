@@ -191,7 +191,7 @@ Route = (route: Route) => {
   @State private counter: number = 0;
 
   Template = async () => <>
-    <p>Counter Value: <b>{this.counter}</b></p>;
+    <p>Counter Value: <b>{this.counter}</b></p>
     <button onclick={() => this.counter++}>Increment</button>
     <button onclick={() => this.counter--}>Decrement</button>
   </>;
