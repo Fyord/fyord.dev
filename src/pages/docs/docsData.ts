@@ -223,7 +223,7 @@ const app = App.Instance(process.env.NODE_ENV || Environments.Production);`
       },
       {
         Name: 'Main',
-        Description: 'Returns the application\'s single rendered <main> element. The main element is where pages are rendered on route match.',
+        Description: 'Returns the application\'s single rendered &ltmain&gt element. The main element is where pages are rendered on route match.',
         Type: 'get Main(): HTMLElement'
       },
       {
