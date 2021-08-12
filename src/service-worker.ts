@@ -34,7 +34,7 @@ const deleteOldCacheCommand = new AsyncCommand(async () => {
       .map((key) => { return caches.delete(key); }));
 });
 
-async function fetchAndCache(request: any): Promise<Response> {
+async function fetchAndCache(request: Request): Promise<Response> {
   const response = await fetch(request);
 
   const copy = response.clone();
@@ -43,7 +43,7 @@ async function fetchAndCache(request: any): Promise<Response> {
   return response;
 }
 
-const networkFirstQuery = (request) => new AsyncQuery<Response>(async () => {
+const networkFirstQuery = (request: Request) => new AsyncQuery<Response>(async () => {
   let response = await fetchAndCache(request);
 
   if (response.status >= 400) {
@@ -54,7 +54,7 @@ const networkFirstQuery = (request) => new AsyncQuery<Response>(async () => {
   return response;
 });
 
-const handleFetchCommand = (event) => new AsyncCommand(async () => {
+const handleFetchCommand = (event: FetchEvent) => new AsyncCommand(async () => {
   const request = event.request;
   const isCacheable = request.method === 'GET';
 
@@ -62,7 +62,7 @@ const handleFetchCommand = (event) => new AsyncCommand(async () => {
     (await networkFirstQuery(request).Execute()).Value :
     await fetch(request);
 
-  event.respondWith(response);
+  event.respondWith(response as Response);
 });
 
 self.addEventListener(ServiceWorkerEvents.Install, async (event) => {
