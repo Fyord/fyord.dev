@@ -56,7 +56,7 @@ const networkFirstQuery = (request: Request) => new AsyncQuery<Response>(async (
 
 const handleFetchCommand = (event: FetchEvent) => new AsyncCommand(async () => {
   const request = event.request;
-  const isCacheable = request.method === 'GET';
+  const isCacheable = request.method === 'GET' && !request.url.includes('sockjs');
 
   const response = isCacheable ?
     (await networkFirstQuery(request).Execute()).Value :
