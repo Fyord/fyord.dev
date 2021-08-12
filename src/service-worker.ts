@@ -54,7 +54,7 @@ const networkFirstQuery = (request: Request) => new AsyncQuery<Response>(async (
   return response;
 });
 
-const handleFetchCommand = (event: FetchEvent) => new AsyncCommand(async () => {
+const handleFetchCommand = async (event: FetchEvent): Promise<Response> => {
   const request = event.request;
   const isCacheable = request.method === 'GET' && !request.url.includes('sockjs');
 
@@ -62,8 +62,8 @@ const handleFetchCommand = (event: FetchEvent) => new AsyncCommand(async () => {
     (await networkFirstQuery(request).Execute()).Value :
     await fetch(request);
 
-  event.respondWith(response as Response);
-});
+  return response as Response;
+};
 
 self.addEventListener(ServiceWorkerEvents.Install, async (event) => {
   event.waitUntil(cacheFilesCommand.Execute());
@@ -74,5 +74,5 @@ self.addEventListener(ServiceWorkerEvents.Activate, async (event) => {
 });
 
 self.addEventListener(ServiceWorkerEvents.Fetch, async (event) => {
-  event.waitUntil(handleFetchCommand(event).Execute());
+  event.respondWith(handleFetchCommand(event));
 });
