@@ -365,7 +365,7 @@ fyord g p search`
   <li>Results presented using our post card component</li>
   <li>Query parameter support allowing linking to search results - /search?query=post</li>
 </ul>
-<p>The <code>searchTerm</code> property decorated with <code>@State</code> is the bit of magic that triggers our component to re-render and display new results as the user is typing. Checkout the <a href="/docs/state%20decorators">State Decorators</a> docs for more info.</p>
+<p>The <code>searchTerm</code> property decorated with <code>@State</code> is the bit of magic that triggers our component to re-render and display new results as the user is typing. Checkout the <a href="/docs/decorators#State">State Decorators</a> docs for more info.</p>
 <p>This page is also a good example of event binding in fyord. Notice the form and input have onsubmit and oninput bound respectively. Adding event listeners in fyord is a simple as prefixing "on" in front of any <a href="https://www.w3schools.com/jsref/dom_obj_event.asp" target="_blank">valid dom event</a>.</p>`,
       Snippet: `import { Page, ParseJsx, Fragment, Route, State } from 'fyord';
 import { IPost } from '../../core/contentTypes/iPost';

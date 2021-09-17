@@ -80,7 +80,7 @@ export const DocsData: Documentation[] = [
         Type: 'State = new EventStore<any>()',
         Description: `<p>Manages local component state. Can be accessed directly to get and set values, subscribe to changes, inspect the event store\'s ledger, and even undo/redo changes.</p>
 <p>For more details, visit the <a href="https://dev.azure.com/joseph-w-bayes/tsbase/_wiki/wikis/tsbase.wiki/396/EventStore" target="_blank">tsbase EventStore docs</a>.</p>
-<p>Most of the time, you'll want to utilize this store through the @State decorator - learn more in <a href="/docs/state%20decorators#State">State decorator docs</a>.</p>`
+<p>Most of the time, you'll want to utilize this store through the @State decorator - learn more in <a href="/docs/decorators#State">State decorator docs</a>.</p>`
       },
       {
         Name: 'App',
@@ -178,8 +178,8 @@ Route = (route: Route) => {
     ]
   },
   {
-    Name: 'State Decorators',
-    Description: 'Extend component properties to enable change detection and other features via an event store',
+    Name: 'Decorators',
+    Description: 'Extend component properties to enable change detection and/or other features',
     Children: [
       {
         Name: 'State',
@@ -202,6 +202,25 @@ Route = (route: Route) => {
         Description: `<p>Functions just as the State decorator, with the only difference that the event store being used is the app\'s event store vice the component\'s.<p>
 <p>Use when sharing state across the session, between components for example.</p>`,
         Type: 'function AppStore(target: Component, key: string)'
+      },
+      {
+        Name: 'Session',
+        Description: `<p>Overrides a property\'s getter and setter to get/set values using <code>session</code> storage.</p>
+<p>Use when you would like to persist data across a session, but not once the session is ended. Changes to properties decorated with "Session" do not trigger re-renders.</p>`,
+        Type: 'function Session(target: Component, key: string)',
+        Snippet: `export class Preferences extends Component {
+  @Session private theme: number = 'dark';
+
+  Template = async () => <>
+    <p>Theme: <b>{this.theme}</b></p>
+  </>;
+}`
+      },
+      {
+        Name: 'Local',
+        Description: `<p>Functions just as the Session decorator, except it uses <code>Local</code> storage instead of <code>Session</code> storage.<p>
+<p>Use when when you would like to persist data to a device between sessions or until explicity removed.</p>`,
+        Type: 'function Local(target: Component, key: string)'
       }
     ]
   },
