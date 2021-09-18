@@ -209,7 +209,7 @@ Route = (route: Route) => {
 <p>Use when you would like to persist data across a session, but not once the session is ended. Changes to properties decorated with "Session" do not trigger re-renders.</p>`,
         Type: 'function Session(target: Component, key: string)',
         Snippet: `export class Preferences extends Component {
-  @Session private theme: number = 'dark';
+  @Session private theme: string = 'dark';
 
   Template = async () => <>
     <p>Theme: <b>{this.theme}</b></p>
