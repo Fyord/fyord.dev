@@ -57,6 +57,11 @@ export const DocsData: Documentation[] = [
         Name: 'Wasm-init',
         Description: 'Prepares a fyord project for wasm development using rust',
         Type: 'fyord wasminit | fyord wi'
+      },
+      {
+        Name: 'Docs',
+        Description: 'Opens the user\'s default browser to the fyord.dev docs page pre-filled with their query.',
+        Type: 'fyord docs | fyord d | fyord docs sass'
       }
     ]
   },
